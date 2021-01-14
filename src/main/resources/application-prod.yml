@@ -1,0 +1,13 @@
+#测试数据库配置信息
+jdbc:
+  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  url: jdbc:sqlserver://localhost:1433;DatabaseName=ksoa
+  username: sa
+  password: scm123
+
+
+dubhe:
+  appKey : app_0001
+  secret :  2344546534354364565767534346dfg323
+  dubheUrl : http://61.191.148.94:8082/router/dubhe/service
+  tenantCode : ahhy
