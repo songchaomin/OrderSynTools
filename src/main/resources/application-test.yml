@@ -6,8 +6,12 @@ jdbc:
   password: scm123
 
 
-dubhe:
-  appKey : app1000sup
-  secret : ea972c4514a1d3534534sdrfdra745ca32c7aa439b
-  dubheUrl : http://dubhe-test.iyaolian.cn:81/router/dubhe/service
-  tenantCode : ylkj
+rmk:
+  clientId : fc3dfedc4d34b4f06d13d3e0b0f6cb96
+  clientSecret: 28aec98630e6663924a504d253afd7a8
+  branchId : hbhzyp
+  customerUrl: https://test-runapi.medi-care.com.cn/v1/msg/customer
+  productUrl: https://test-runapi.medi-care.com.cn/v1/msg/product
+  orderGetUrl: https://test-runapi.medi-care.com.cn/v1/open/orderGrab
+  orderMarkUrl: https://test-runapi.medi-care.com.cn/v1/open/orderMark
+  orderStatusUrl: https://test-runapi.medi-care.com.cn/v1/msg/order

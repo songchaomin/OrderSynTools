@@ -2,6 +2,7 @@ package com.kuka.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
@@ -152,6 +153,29 @@ public class EncrypAES {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public static  String md5(String b) {
+        MessageDigest md = null;
+        try {
+             md = MessageDigest.getInstance("MD5");
+            md.reset();
+            md.update(b.getBytes("UTF-8"));
+
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        byte[] hash = md.digest();
+        StringBuffer outStrBuf = new StringBuffer(32);
+        for (int i = 0; i < hash.length; i++) {
+            int v = hash[i] & 0xFF;
+            if (Integer.toHexString(hash[i] & 0xFF).length()==1) {
+                outStrBuf.append("0").append(Integer.toHexString(hash[i] & 0xFF));
+            }
+            outStrBuf.append(Integer.toHexString(hash[i] & 0xFF));
+        }
+        return outStrBuf.toString();
     }
 
 }
