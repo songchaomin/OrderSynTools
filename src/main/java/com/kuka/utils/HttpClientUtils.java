@@ -1,6 +1,5 @@
 package com.kuka.utils;
 
-import com.kuka.config.YamlPropertySourceFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -11,21 +10,11 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Slf4j
-@Service
-@PropertySource(value = {"classpath:application-${spring.profiles.active}.yml"},factory = YamlPropertySourceFactory.class)
 public class HttpClientUtils {
-    @Value("${rmk.clientId}")
-    private static  String clientId;
-    @Value("${rmk.clientSecret}")
-    private static  String clientSecret;
-
-    public static  String getSign(String timeStamp)  {
+    public static  String getSign(String clientId,String clientSecret,String timeStamp)  {
         StringBuilder sb=new StringBuilder();
         sb.append(clientId);
         sb.append(clientSecret);

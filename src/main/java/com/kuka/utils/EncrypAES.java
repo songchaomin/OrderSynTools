@@ -157,6 +157,7 @@ public class EncrypAES {
 
 
     public static  String md5(String b) {
+        System.out.println(b);
         MessageDigest md = null;
         try {
              md = MessageDigest.getInstance("MD5");
@@ -167,14 +168,15 @@ public class EncrypAES {
             e.printStackTrace();
         }
         byte[] hash = md.digest();
-        StringBuffer outStrBuf = new StringBuffer(32);
+        StringBuffer outStrBuf = new StringBuffer();
         for (int i = 0; i < hash.length; i++) {
-            int v = hash[i] & 0xFF;
             if (Integer.toHexString(hash[i] & 0xFF).length()==1) {
                 outStrBuf.append("0").append(Integer.toHexString(hash[i] & 0xFF));
-            }
+            }else{
             outStrBuf.append(Integer.toHexString(hash[i] & 0xFF));
+            }
         }
+        System.out.println(outStrBuf.toString());
         return outStrBuf.toString();
     }
 

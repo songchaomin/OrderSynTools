@@ -44,7 +44,7 @@ public class RmkInterfaceServiceImpl implements RmkInterfaceService {
         ICustomer rmkCustomer=new ICustomer();
         rmkCustomer.setClientId(clientId);
         String timeStamp= DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss");
-        String sign = HttpClientUtils.getSign(timeStamp);
+        String sign = HttpClientUtils.getSign(clientId,clientSecret,timeStamp);
         rmkCustomer.setTimestamp(timeStamp);
         rmkCustomer.setSign(sign);
         customers.stream().forEach(t->t.setBranchId(branchId));
