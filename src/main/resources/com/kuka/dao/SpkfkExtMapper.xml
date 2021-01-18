@@ -258,22 +258,17 @@
     zt, dsjg, fenzu2, fenzu, is_mhj, ypssxkcyr, gsp_qxzczh, ssxkcyr, qx_scxkzh
   </sql>
 
-  <insert id="batchInsert" parameterType="map">
-    <!--@mbg.generated-->
-    insert into spkfk
-    (spid, spbh, spmch, zjm, beactive, yishj, is_gdsj,is_gdzk, is_tjsp, is_hysp, is_gmp,is_gsp,is_sy,is_yp,jingd, dw,
-      shpchd, shpgg,bzqfs, shengccj, pizhwh, jixing, leibie, jlgg, cunchtj, shenhe,
-      shlv, xscbdj, zhk, zhkj, zhbj,gsp_pzwhyxq,zhengzzt,sptm)
-    values
-    <foreach collection="list" item="item" separator=",">
-      (
-        #{item.spid},  #{item.spbh},  #{item.spmch}, #{item.zjm}, #{item.beactive},  #{item.yishj}, #{item.isGdsj}, #{item.isGdzk},  #{item.isTjsp},
-        #{item.isHysp}, #{item.isGmp}, #{item.isGsp}, #{item.isSy}, #{item.isYp}, #{item.jingd},
-        #{item.dw}, #{item.shpchd}, #{item.shpgg}, #{item.bzqfs}, #{item.shengccj},  #{item.pizhwh}, #{item.jixing},  #{item.leibie},
-        #{item.jlgg}, #{item.cunchtj}, #{item.shenhe},  #{item.shlv}, #{item.xscbdj}, #{item.zhk},  #{item.zhkj}, #{item.zhbj}, #{item.gspPzwhyxq},
-        #{item.zhengzzt},#{item.sptm}
+  <select id="querySpkfk" resultType="com.kuka.domain.Spkfk">
+     select top 1000 spbh,spmch,shpgg,dw, jlgg from spkfk
+  </select>
 
-        )
-    </foreach>
-  </insert>
+    <update id="updateUploadStatus" parameterType="com.kuka.domain.Spkfk">
+        <foreach collection="spkfks" item="model" separator=";">
+        update spkfk
+        <set>
+            upload_status=1
+        </set>
+        where spbh=#{model.spbh}
+        </foreach>
+    </update>
 </mapper>

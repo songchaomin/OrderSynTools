@@ -8,5 +8,8 @@ import java.util.List;
 
 @Repository
 public interface SpkfkExtMapper {
-    int batchInsert(@Param("list") List<Spkfk> list);
+    //查询1000条料品信息上传
+    List<Spkfk> querySpkfk();
+    //更新上传成功的标记
+    void updateUploadStatus(@Param("spkfks") List<Spkfk> spkfks);
 }

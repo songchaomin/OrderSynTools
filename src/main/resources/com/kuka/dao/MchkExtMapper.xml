@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuka.dao.MchkExtMapper">
+  <resultMap id="BaseResultExtMap" type="com.kuka.domain.Mchk">
+    <!--@mbg.generated-->
+    <!--@Table mchk-->
+    <id column="dwbh" jdbcType="CHAR" property="dwbh" />
+    <result column="danwbh" jdbcType="CHAR" property="danwbh" />
+    <result column="dwmch" jdbcType="CHAR" property="dwmch" />
+    <result column="zjm" jdbcType="CHAR" property="zjm" />
+    <result column="kemuhao" jdbcType="VARCHAR" property="kemuhao" />
+    <result column="ywy" jdbcType="VARCHAR" property="ywy" />
+    <result column="kehufl" jdbcType="CHAR" property="kehufl" />
+    <result column="quyufl" jdbcType="VARCHAR" property="quyufl" />
+    <result column="kehulb" jdbcType="VARCHAR" property="kehulb" />
+    <result column="isjh" jdbcType="CHAR" property="isjh" />
+    <result column="isxs" jdbcType="CHAR" property="isxs" />
+    <result column="shh" jdbcType="CHAR" property="shh" />
+    <result column="dzhdh" jdbcType="CHAR" property="dzhdh" />
+    <result column="yhzhh" jdbcType="VARCHAR" property="yhzhh" />
+    <result column="lxr" jdbcType="VARCHAR" property="lxr" />
+    <result column="zipno" jdbcType="VARCHAR" property="zipno" />
+    <result column="kehudengji" jdbcType="CHAR" property="kehudengji" />
+    <result column="lxrdh" jdbcType="CHAR" property="lxrdh" />
+    <result column="ghxde" jdbcType="DECIMAL" property="ghxde" />
+    <result column="xsxde" jdbcType="DECIMAL" property="xsxde" />
+    <result column="otd" jdbcType="INTEGER" property="otd" />
+    <result column="xdqxg" jdbcType="INTEGER" property="xdqxg" />
+    <result column="xdqxx" jdbcType="INTEGER" property="xdqxx" />
+    <result column="koul" jdbcType="DECIMAL" property="koul" />
+    <result column="canskl" jdbcType="DECIMAL" property="canskl" />
+    <result column="yshye" jdbcType="DECIMAL" property="yshye" />
+    <result column="yfye" jdbcType="DECIMAL" property="yfye" />
+    <result column="yingshsx" jdbcType="DECIMAL" property="yingshsx" />
+    <result column="yshjzh" jdbcType="DECIMAL" property="yshjzh" />
+    <result column="yfjzh" jdbcType="DECIMAL" property="yfjzh" />
+    <result column="beactive" jdbcType="CHAR" property="beactive" />
+    <result column="oldcode" jdbcType="VARCHAR" property="oldcode" />
+    <result column="yishj" jdbcType="CHAR" property="yishj" />
+    <result column="xvkz" jdbcType="CHAR" property="xvkz" />
+    <result column="shfyyzz" jdbcType="CHAR" property="shfyyzz" />
+    <result column="yingyzz" jdbcType="CHAR" property="yingyzz" />
+    <result column="jingyfw" jdbcType="CHAR" property="jingyfw" />
+    <result column="hangymch" jdbcType="VARCHAR" property="hangymch" />
+    <result column="oldyfye" jdbcType="DECIMAL" property="oldyfye" />
+    <result column="oldyshye" jdbcType="DECIMAL" property="oldyshye" />
+    <result column="frdb" jdbcType="CHAR" property="frdb" />
+    <result column="zhgzsh" jdbcType="DECIMAL" property="zhgzsh" />
+    <result column="zhj_bl" jdbcType="DECIMAL" property="zhjBl" />
+    <result column="shn_xshe" jdbcType="DECIMAL" property="shnXshe" />
+    <result column="heshitg" jdbcType="VARCHAR" property="heshitg" />
+    <result column="pzhshl" jdbcType="DECIMAL" property="pzhshl" />
+    <result column="zhj_dh" jdbcType="VARCHAR" property="zhjDh" />
+    <result column="is_zhdshg" jdbcType="CHAR" property="isZhdshg" />
+    <result column="zjxpzh" jdbcType="VARCHAR" property="zjxpzh" />
+    <result column="is_pxrz" jdbcType="CHAR" property="isPxrz" />
+    <result column="is_wf" jdbcType="CHAR" property="isWf" />
+    <result column="zhuypzh" jdbcType="CHAR" property="zhuypzh" />
+    <result column="is_xkz" jdbcType="CHAR" property="isXkz" />
+    <result column="is_yyzz" jdbcType="CHAR" property="isYyzz" />
+    <result column="is_shqwtsh" jdbcType="CHAR" property="isShqwtsh" />
+    <result column="is_shgzh" jdbcType="CHAR" property="isShgzh" />
+    <result column="is_shfzh" jdbcType="CHAR" property="isShfzh" />
+    <result column="is_lxdh" jdbcType="CHAR" property="isLxdh" />
+    <result column="is_zhlbzhxy" jdbcType="CHAR" property="isZhlbzhxy" />
+    <result column="is_jq" jdbcType="CHAR" property="isJq" />
+    <result column="is_gb" jdbcType="CHAR" property="isGb" />
+    <result column="is_jg" jdbcType="CHAR" property="isJg" />
+    <result column="qita" jdbcType="CHAR" property="qita" />
+    <result column="bmyj" jdbcType="VARCHAR" property="bmyj" />
+    <result column="zhj_yj" jdbcType="VARCHAR" property="zhjYj" />
+    <result column="zhgshp" jdbcType="VARCHAR" property="zhgshp" />
+    <result column="tbrq" jdbcType="VARCHAR" property="tbrq" />
+    <result column="zhlfzr" jdbcType="VARCHAR" property="zhlfzr" />
+    <result column="shn_hgl" jdbcType="DECIMAL" property="shnHgl" />
+    <result column="culture" jdbcType="VARCHAR" property="culture" />
+    <result column="zhibumen" jdbcType="VARCHAR" property="zhibumen" />
+    <result column="shenhrq" jdbcType="VARCHAR" property="shenhrq" />
+    <result column="xkzyxq" jdbcType="VARCHAR" property="xkzyxq" />
+    <result column="gspzsyxq" jdbcType="VARCHAR" property="gspzsyxq" />
+    <result column="gmpzsyxq" jdbcType="VARCHAR" property="gmpzsyxq" />
+    <result column="khyh" jdbcType="CHAR" property="khyh" />
+    <result column="dzdh" jdbcType="VARCHAR" property="dzdh" />
+    <result column="psdzm" jdbcType="VARCHAR" property="psdzm" />
+    <result column="lastmodifytime" jdbcType="VARCHAR" property="lastmodifytime" />
+    <result column="czcaozy" jdbcType="VARCHAR" property="czcaozy" />
+    <result column="idcard" jdbcType="CHAR" property="idcard" />
+    <result column="xvkzname" jdbcType="CHAR" property="xvkzname" />
+    <result column="fzhjg" jdbcType="CHAR" property="fzhjg" />
+    <result column="fzhrq" jdbcType="VARCHAR" property="fzhrq" />
+    <result column="yyzzdjjg" jdbcType="CHAR" property="yyzzdjjg" />
+    <result column="reg_capital" jdbcType="CHAR" property="regCapital" />
+    <result column="shwdjh" jdbcType="VARCHAR" property="shwdjh" />
+    <result column="jyfsh" jdbcType="VARCHAR" property="jyfsh" />
+    <result column="zlzhshbh" jdbcType="CHAR" property="zlzhshbh" />
+    <result column="limitTime" jdbcType="VARCHAR" property="limittime" />
+    <result column="gonghnl" jdbcType="CHAR" property="gonghnl" />
+    <result column="gmpzsh" jdbcType="CHAR" property="gmpzsh" />
+    <result column="faxno" jdbcType="CHAR" property="faxno" />
+    <result column="yusye" jdbcType="DECIMAL" property="yusye" />
+    <result column="yufye" jdbcType="DECIMAL" property="yufye" />
+    <result column="flye" jdbcType="DECIMAL" property="flye" />
+    <result column="yyzzyxq" jdbcType="VARCHAR" property="yyzzyxq" />
+    <result column="chnjsts" jdbcType="INTEGER" property="chnjsts" />
+    <result column="oldflye" jdbcType="DECIMAL" property="oldflye" />
+    <result column="oldyufye" jdbcType="DECIMAL" property="oldyufye" />
+    <result column="oldyusye" jdbcType="DECIMAL" property="oldyusye" />
+    <result column="yufjzh" jdbcType="DECIMAL" property="yufjzh" />
+    <result column="yusjzh" jdbcType="DECIMAL" property="yusjzh" />
+    <result column="fljzh" jdbcType="DECIMAL" property="fljzh" />
+    <result column="bum" jdbcType="CHAR" property="bum" />
+    <result column="xkzjyfw" jdbcType="CHAR" property="xkzjyfw" />
+    <result column="zzjyfw" jdbcType="VARCHAR" property="zzjyfw" />
+    <result column="zbxyxq" jdbcType="CHAR" property="zbxyxq" />
+    <result column="sgzxq" jdbcType="CHAR" property="sgzxq" />
+    <result column="wtsxq" jdbcType="CHAR" property="wtsxq" />
+    <result column="city_id" jdbcType="CHAR" property="cityId" />
+    <result column="city_name" jdbcType="CHAR" property="cityName" />
+    <result column="boro_id" jdbcType="CHAR" property="boroId" />
+    <result column="boro_name" jdbcType="CHAR" property="boroName" />
+    <result column="yybh" jdbcType="CHAR" property="yybh" />
+    <result column="kehulbbh" jdbcType="CHAR" property="kehulbbh" />
+    <result column="zzjgdmzyxq" jdbcType="CHAR" property="zzjgdmzyxq" />
+    <result column="shenhe" jdbcType="CHAR" property="shenhe" />
+    <result column="quyuxian" jdbcType="CHAR" property="quyuxian" />
+    <result column="shhdzh" jdbcType="CHAR" property="shhdzh" />
+    <result column="gsp_gspyxq" jdbcType="CHAR" property="gspGspyxq" />
+    <result column="gsp_gmpyxq" jdbcType="CHAR" property="gspGmpyxq" />
+    <result column="gsp_yyzzyxq" jdbcType="CHAR" property="gspYyzzyxq" />
+    <result column="gsp_xkzyxq" jdbcType="CHAR" property="gspXkzyxq" />
+    <result column="gsp_wtsyxq" jdbcType="CHAR" property="gspWtsyxq" />
+    <result column="gsp_zbxyyxq" jdbcType="CHAR" property="gspZbxyyxq" />
+    <result column="gsp_dmzyxq" jdbcType="CHAR" property="gspDmzyxq" />
+    <result column="khhm" jdbcType="CHAR" property="khhm" />
+    <result column="gspzs" jdbcType="CHAR" property="gspzs" />
+    <result column="gmpzs" jdbcType="CHAR" property="gmpzs" />
+    <result column="gsp_sgzyxq" jdbcType="CHAR" property="gspSgzyxq" />
+    <result column="CorpID" jdbcType="VARCHAR" property="corpid" />
+    <result column="yjdwbh" jdbcType="CHAR" property="yjdwbh" />
+    <result column="gsp_yyzznjyxq" jdbcType="CHAR" property="gspYyzznjyxq" />
+    <result column="gsp_jgdmnjyxq" jdbcType="CHAR" property="gspJgdmnjyxq" />
+    <result column="gsp_dwbh" jdbcType="CHAR" property="gspDwbh" />
+    <result column="gsp_swzfzrq" jdbcType="CHAR" property="gspSwzfzrq" />
+    <result column="gsp_thr" jdbcType="CHAR" property="gspThr" />
+    <result column="gsp_thrsfz" jdbcType="CHAR" property="gspThrsfz" />
+    <result column="gsp_zlfzr" jdbcType="CHAR" property="gspZlfzr" />
+    <result column="gsp_cgwtr" jdbcType="CHAR" property="gspCgwtr" />
+    <result column="gsp_cgwtrsfz" jdbcType="CHAR" property="gspCgwtrsfz" />
+    <result column="gsp_cgwtrdh" jdbcType="CHAR" property="gspCgwtrdh" />
+    <result column="gsp_ckdzh" jdbcType="CHAR" property="gspCkdzh" />
+    <result column="gsp_cgwtsyxq" jdbcType="CHAR" property="gspCgwtsyxq" />
+    <result column="zhilbztx" jdbcType="CHAR" property="zhilbztx" />
+    <result column="xydcb" jdbcType="CHAR" property="xydcb" />
+    <result column="email" jdbcType="CHAR" property="email" />
+    <result column="xy_gxysgz" jdbcType="CHAR" property="xyGxysgz" />
+    <result column="xy_zlbzxy" jdbcType="CHAR" property="xyZlbzxy" />
+    <result column="xy_gxysfz" jdbcType="CHAR" property="xyGxysfz" />
+    <result column="xy_frwts" jdbcType="CHAR" property="xyFrwts" />
+    <result column="xy_zzjgdmz" jdbcType="CHAR" property="xyZzjgdmz" />
+    <result column="xy_yzshtxd" jdbcType="CHAR" property="xyYzshtxd" />
+    <result column="xy_swdjz" jdbcType="CHAR" property="xySwdjz" />
+    <result column="ydanwbh" jdbcType="CHAR" property="ydanwbh" />
+    <result column="pianqu" jdbcType="CHAR" property="pianqu" />
+    <result column="huozu" jdbcType="CHAR" property="huozu" />
+    <result column="zhengzzt" jdbcType="INTEGER" property="zhengzzt" />
+    <result column="GSPGMPZH" jdbcType="CHAR" property="gspgmpzh" />
+    <result column="zhengzzt_t" jdbcType="DECIMAL" property="zhengzztT" />
+    <result column="khyhh" jdbcType="CHAR" property="khyhh" />
+    <result column="khhmm" jdbcType="CHAR" property="khhmm" />
+    <result column="yhzhhh" jdbcType="CHAR" property="yhzhhh" />
+    <result column="is_hetong" jdbcType="CHAR" property="isHetong" />
+    <result column="shtxd" jdbcType="CHAR" property="shtxd" />
+    <result column="fppy" jdbcType="CHAR" property="fppy" />
+    <result column="hetongyxq" jdbcType="CHAR" property="hetongyxq" />
+    <result column="zhk" jdbcType="DECIMAL" property="zhk" />
+  </resultMap>
+  <sql id="Base_Column_ext_List">
+    <!--@mbg.generated-->
+    dwbh, danwbh, dwmch, zjm, kemuhao, ywy, kehufl, quyufl, kehulb, isjh, isxs, shh, 
+    dzhdh, yhzhh, lxr, zipno, kehudengji, lxrdh, ghxde, xsxde, otd, xdqxg, xdqxx, koul, 
+    canskl, yshye, yfye, yingshsx, yshjzh, yfjzh, beactive, oldcode, yishj, xvkz, shfyyzz, 
+    yingyzz, jingyfw, hangymch, oldyfye, oldyshye, frdb, zhgzsh, zhj_bl, shn_xshe, heshitg, 
+    pzhshl, zhj_dh, is_zhdshg, zjxpzh, is_pxrz, is_wf, zhuypzh, is_xkz, is_yyzz, is_shqwtsh, 
+    is_shgzh, is_shfzh, is_lxdh, is_zhlbzhxy, is_jq, is_gb, is_jg, qita, bmyj, zhj_yj, 
+    zhgshp, tbrq, zhlfzr, shn_hgl, culture, zhibumen, shenhrq, xkzyxq, gspzsyxq, gmpzsyxq, 
+    khyh, dzdh, psdzm, lastmodifytime, czcaozy, idcard, xvkzname, fzhjg, fzhrq, yyzzdjjg, 
+    reg_capital, shwdjh, jyfsh, zlzhshbh, limitTime, gonghnl, gmpzsh, faxno, yusye, yufye, 
+    flye, yyzzyxq, chnjsts, oldflye, oldyufye, oldyusye, yufjzh, yusjzh, fljzh, bum, 
+    xkzjyfw, zzjyfw, zbxyxq, sgzxq, wtsxq, city_id, city_name, boro_id, boro_name, yybh, 
+    kehulbbh, zzjgdmzyxq, shenhe, quyuxian, shhdzh, gsp_gspyxq, gsp_gmpyxq, gsp_yyzzyxq, 
+    gsp_xkzyxq, gsp_wtsyxq, gsp_zbxyyxq, gsp_dmzyxq, khhm, gspzs, gmpzs, gsp_sgzyxq, 
+    CorpID, yjdwbh, gsp_yyzznjyxq, gsp_jgdmnjyxq, gsp_dwbh, gsp_swzfzrq, gsp_thr, gsp_thrsfz, 
+    gsp_zlfzr, gsp_cgwtr, gsp_cgwtrsfz, gsp_cgwtrdh, gsp_ckdzh, gsp_cgwtsyxq, zhilbztx, 
+    xydcb, email, xy_gxysgz, xy_zlbzxy, xy_gxysfz, xy_frwts, xy_zzjgdmz, xy_yzshtxd, 
+    xy_swdjz, ydanwbh, pianqu, huozu, zhengzzt, GSPGMPZH, zhengzzt_t, khyhh, khhmm, yhzhhh, 
+    is_hetong, shtxd, fppy, hetongyxq, zhk
+  </sql>
+  <select id="queryMchk" resultType="com.kuka.domain.Mchk">
+      select top 100 <include refid="Base_Column_ext_List"/> from mchk where beactive='是' and upload_status != 1
+  </select>
+
+    <update id="updateUploadStatus" parameterType="com.kuka.domain.Mchk">
+        <foreach collection="mchks" item="model" separator=";">
+            update mchk
+            <set>
+                upload_status=1
+            </set>
+            where danwbh=#{model.danwbh}
+        </foreach>
+    </update>
+</mapper>

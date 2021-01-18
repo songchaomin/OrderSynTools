@@ -2,11 +2,10 @@ package com.kuka.services.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kuka.dao.SpkfkExtMapper;
-import com.kuka.dao.SpkfkMapper;
-import com.kuka.domain.Customer;
+import com.kuka.domain.Product;
 import com.kuka.domain.ResultDto;
 import com.kuka.domain.Spkfk;
-import com.kuka.services.RmkInterfaceService;
+import com.kuka.services.IRmkService;
 import com.kuka.services.SpkfkService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,27 +14,44 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class SpkfkServiceImpl implements SpkfkService {
 
     @Autowired
-    private RmkInterfaceService rmkInterfaceService;
+    private IRmkService rmkInterfaceService;
+    @Autowired
+    private SpkfkExtMapper spkfkExtMapper;
     @Override
     public void synItems() {
-        List<Customer> customers=new ArrayList<>();
-        Customer customer = new Customer();
-        customer.setArea("test");
-        customer.setCity("test");
-        customer.setBranchId("'");
-        customer.setDanwBh("test");
-        customer.setCustName("test");
-        customer.setMedicalLicenseNo("L18196198320");
-        customer.setStatus(1);
-        customers.add(customer);
-        ResultDto resultDto = rmkInterfaceService.synCustomers(customers);
-        System.out.println(resultDto.getCode()+"---"+resultDto.getMessage());
-
+        //查询要上传的商品资料
+        List<Spkfk> spkfks = spkfkExtMapper.querySpkfk();
+        if (CollectionUtils.isEmpty(spkfks)){
+            log.info("本次没有可上传的商品资料。");
+            return ;
+        }
+        List<Product> products = new ArrayList<>();
+        spkfks.stream().forEach(t -> {
+            Product product = new Product();
+            product.setProdNo(t.getSpbh());
+            product.setProdName(t.getSpmch());
+            product.setProdBarcode(t.getSptm());//条形码
+            product.setSpecification(t.getShpgg());
+            product.setPackageUnit(t.getDw());
+            product.setSplit_package_type(1);
+            product.setMidPackageQuantity(t.getJlgg());
+            product.setStatus(1);
+            products.add(product);
+        });
+        ResultDto resultDto = rmkInterfaceService.synProducts(products);
+        if (resultDto.getCode() != 0) {
+            log.error("上传客户信息失败，原因：" + resultDto.getMessage());
+        } else {
+            //更新上传成功标记
+            spkfkExtMapper.updateUploadStatus(spkfks);
+            log.info("上传成功，此次上传的客户编码信息为：" + JSONObject.toJSONString(spkfks.stream().map(t -> t.getSpbh().trim()).collect(Collectors.toList())));
+        }
     }
 }
