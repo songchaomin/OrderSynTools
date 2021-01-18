@@ -29,7 +29,7 @@ public class IRmkServiceImpl implements IRmkService {
     private  String customerUrl;
     @Value("${rmk.productUrl}")
     private  String productUrl;
-    @Value("${rmk.clientSecret}")
+    @Value("${rmk.orderGetUrl}")
     private  String orderGetUrl;
     @Value("${rmk.orderMarkUrl}")
     private  String orderMarkUrl;
@@ -86,7 +86,20 @@ public class IRmkServiceImpl implements IRmkService {
     }
 
     @Override
-    public List<String> synOrder() {
+    public IOrder synOrder() {
+        JSONObject jsonObject=new JSONObject();
+        String timeStamp= DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss");
+        String sign = HttpClientUtils.getSign(clientId,clientSecret,timeStamp);
+        jsonObject.put("sign",sign);
+        jsonObject.put("timestamp",timeStamp);
+        jsonObject.put("clientId",clientId);
+        jsonObject.put("branchId",branchId);
+        try {
+            String response = HttpClientUtils.doPost(orderGetUrl,jsonObject.toJSONString() );
+            return  (IOrder) JSONObject.parse(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -97,8 +110,26 @@ public class IRmkServiceImpl implements IRmkService {
     }
 
     @Override
-    public ResultDto synOrderStatus(List<String> orderNo) {
+    public ResultDto synOrderStatus(List<String> orderNos) {
         ResultDto resultDto=new ResultDto();
+        JSONObject jsonObject=new JSONObject();
+        String timeStamp= DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss");
+        String sign = HttpClientUtils.getSign(clientId,clientSecret,timeStamp);
+        jsonObject.put("sign",sign);
+        jsonObject.put("timestamp",timeStamp);
+        jsonObject.put("clientId",clientId);
+        jsonObject.put("branchId",branchId);
+        jsonObject.put("orderCodeList",orderNos);
+        try {
+            String response = HttpClientUtils.doPost(orderGetUrl,jsonObject.toJSONString() );
+            JSONObject jsonResponse = JSONObject.parseObject(response);
+            resultDto.setCode((int)jsonResponse.get("code"));
+            resultDto.setMessage((String) jsonResponse.get("msg"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultDto.setCode(999);
+            resultDto.setMessage(e.getMessage());
+        }
         return resultDto;
     }
 }

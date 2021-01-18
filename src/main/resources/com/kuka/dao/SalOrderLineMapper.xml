@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuka.dao.SalOrderLineMapper">
+  <resultMap id="BaseResultMap" type="com.kuka.domain.SalOrderLine">
+    <!--@mbg.generated-->
+    <!--@Table sal_order_line-->
+    <result column="out_order_code" jdbcType="VARCHAR" property="outOrderCode" />
+    <result column="prod_no" jdbcType="VARCHAR" property="prodNo" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+  </resultMap>
+  <insert id="insert" parameterType="com.kuka.domain.SalOrderLine">
+    <!--@mbg.generated-->
+    insert into sal_order_line (out_order_code, prod_no, quantity, 
+      price)
+    values (#{outOrderCode,jdbcType=VARCHAR}, #{prodNo,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kuka.domain.SalOrderLine">
+    <!--@mbg.generated-->
+    insert into sal_order_line
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="outOrderCode != null">
+        out_order_code,
+      </if>
+      <if test="prodNo != null">
+        prod_no,
+      </if>
+      <if test="quantity != null">
+        quantity,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="outOrderCode != null">
+        #{outOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="prodNo != null">
+        #{prodNo,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sal_order_line
+    (out_order_code, prod_no, quantity, price)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.outOrderCode,jdbcType=VARCHAR}, #{item.prodNo,jdbcType=VARCHAR}, #{item.quantity,jdbcType=INTEGER}, 
+        #{item.price,jdbcType=DECIMAL})
+    </foreach>
+  </insert>
+</mapper>
