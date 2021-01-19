@@ -21,20 +21,28 @@ import java.util.List;
 public class IRmkServiceImpl implements IRmkService {
     @Value("${rmk.clientId}")
     private  String clientId;
+
     @Value("${rmk.clientSecret}")
     private  String clientSecret;
+
     @Value("${rmk.branchId}")
     private  String branchId;
+
     @Value("${rmk.customerUrl}")
     private  String customerUrl;
+
     @Value("${rmk.productUrl}")
     private  String productUrl;
+
     @Value("${rmk.orderGetUrl}")
     private  String orderGetUrl;
+
     @Value("${rmk.orderMarkUrl}")
     private  String orderMarkUrl;
+
     @Value("${rmk.orderStatusUrl}")
     private  String orderStatusUrl;
+
     @Value("${rmk.invAndPriceUrl}")
     private  String invAndPriceUrl;
     @Override
@@ -130,7 +138,7 @@ public class IRmkServiceImpl implements IRmkService {
         jsonObject.put("branchId",branchId);
         jsonObject.put("orderCodeList",orderNos);
         try {
-            String response = HttpClientUtils.doPost(orderGetUrl,jsonObject.toJSONString() );
+            String response = HttpClientUtils.doPost(orderMarkUrl,jsonObject.toJSONString() );
             JSONObject jsonResponse = JSONObject.parseObject(response);
             resultDto.setCode((int)jsonResponse.get("code"));
             resultDto.setMessage((String) jsonResponse.get("msg"));

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传数据</title>
+    <link rel="stylesheet" href="../lib/layui-v2.5.6/css/layui.css"/>
+    <script src="../lib/jquery-3.4.1/jquery-3.4.1.js" type="text/javascript"></script>
+    <script src="../lib/layui-v2.5.6/layui.all.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var layer = layui.layer;
+        let $items=$("#items");
+        let $customers=$("#customers");
+        let $inventorys=$("#inventorys");
+        let $orders=$("#orders");
+        $items.click(function () {
+            $.get('../spkfk/synItems','',function(rs) {
+                layer.msg(rs.message);
+            },'json');
+        });
+
+        $customers.click(function () {
+            $.get('../mchk/synCustomer','',function(rs) {
+                layer.msg(rs.message);
+            },'json');
+        });
+
+
+        $inventorys.click(function () {
+            $.get('../spkfk/synInventoryAndPrice','',function(rs) {
+                layer.msg(rs.message);
+            },'json');
+        });
+
+        $orders.click(function () {
+            $.get('../order/synOrders','',function(rs) {
+                layer.msg(rs.message,{time:3000});
+            },'json');
+        });
+
+
+    });
+</script>
+<body>
+<div style="font-size: 12px;color: red;margin: 10px 0px; line-height: 24px">
+    <h6>注意事项:</h6>
+    <p>
+        1、商品资料一次只上传1000条
+    </p>
+    <p>
+        2、客户资料一次只上传100条。
+    </p>
+    <p>
+        3、商品库存和价格一次只上传1000条
+    </p>
+</div>
+<button type="button" class="layui-btn" id="items">上传商品资料</button>
+<button type="button" class="layui-btn" id="customers">上传客户资料</button>
+<button type="button" class="layui-btn" id="inventorys">上传商品库存和价格资料</button>
+<button type="button" class="layui-btn" id="orders">同步订单</button>
+</body>
+
+</html>

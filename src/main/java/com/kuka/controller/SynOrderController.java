@@ -1,5 +1,6 @@
 package com.kuka.controller;
 
+import com.kuka.domain.ResultDto;
 import com.kuka.services.SalOrderService;
 import com.kuka.services.SpkfkService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +20,8 @@ public class SynOrderController {
      */
     @ResponseBody
     @GetMapping("order/synOrders")
-    public void synItems() {
-        salOrderService.synOrder();
+    public ResultDto synItems() {
+       return salOrderService.synOrder();
     }
 
 

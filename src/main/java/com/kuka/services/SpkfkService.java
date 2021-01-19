@@ -1,8 +1,9 @@
 package com.kuka.services;
 
 
+import com.kuka.domain.ResultDto;
 
 public interface SpkfkService {
-   void synItems();
-   void synInventoryAndPrice();
+    ResultDto synItems();
+    ResultDto synInventoryAndPrice();
 }

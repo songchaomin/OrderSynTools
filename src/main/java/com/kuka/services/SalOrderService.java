@@ -1,5 +1,7 @@
 package com.kuka.services;
 
+import com.kuka.domain.ResultDto;
+
 public interface SalOrderService {
-void synOrder();
+    ResultDto synOrder();
 }

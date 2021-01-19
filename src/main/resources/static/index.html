@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>企业管理系统</title>
+    <link rel="stylesheet" href="lib/layui-v2.5.6/css/layui.css"/>
+    <script src="lib/jquery-3.4.1/jquery-3.4.1.js" type="text/javascript"></script>
+    <script src="lib/layui-v2.5.6/layui.all.js" type="text/javascript"></script>
+</head>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var element = layui.element;
+        var layer = layui.layer;
+        var form = layui.form;
+        var subMenuNode = $(".subMenu");
+        let menuEvent = {
+            addTab: function (title, id, src) {
+                element.tabAdd('menu_tab', {
+                    title: title
+                    ,
+                    content: '<iframe data-frameid="' + id + '" scrolling="no" frameborder="0" src="' + src + '" style="width:100%;"></iframe>' //支持传入html
+                    ,
+                    id: id
+                });
+            },
+            changeTab: function (tabFilterName, id) {
+                element.tabChange(tabFilterName, id);
+            }
+        }
+        subMenuNode.on("click", function () {
+            let cureentNode = $(this);
+            let dataUrl = cureentNode.attr("dataUrl");
+            let dataId = cureentNode.attr("dataId");
+            let title = cureentNode[0].innerHTML;
+            let checkTabFlag = false;
+            //判断右侧TAB页是否存在，如果存在就切换到那个TAB页，不存在就新增一个
+            if ($(".layui-tab-title li[lay-id]").length < 1) {
+                menuEvent.addTab(title, dataId, dataUrl);
+            } else {
+                $.each($(".layui-tab-title li[lay-id]"), function () {
+                    let tabLayId = $(this).attr("lay-id");
+                    if (tabLayId == dataId) {
+                        checkTabFlag = true;
+                    }
+                });
+                if (!checkTabFlag) {
+                    menuEvent.addTab(title, dataId, dataUrl);
+                }
+            }
+            menuEvent.changeTab("menu_tab", dataId);
+        });
+        element.init();
+    });
+</script>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">企业管理系统</div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="" class="layui-nav-img">
+                    贤心
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">退了</a></li>
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="menu">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">监控管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" dataUrl="orderMonitor/upload.html" dataId="1" class="subMenu">上传数据</a>
+                        </dd>
+                    </dl>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body">
+        <div class="layui-tab" lay-allowClose="true" lay-filter="menu_tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">首页</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-footer">
+        <div style="text-align: center;">@CopyRight 杭州旭日科技有限公司</div>
+    </div>
+</div>
+</body>
+</html>

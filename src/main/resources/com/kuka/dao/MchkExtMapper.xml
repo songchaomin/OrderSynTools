@@ -196,7 +196,7 @@
     is_hetong, shtxd, fppy, hetongyxq, zhk
   </sql>
   <select id="queryMchk" resultType="com.kuka.domain.Mchk">
-      select top 100 <include refid="Base_Column_ext_List"/> from mchk where beactive='是' and upload_status != 1
+      select top 1000 <include refid="Base_Column_ext_List"/> from mchk where beactive='是' and upload_status != 1
   </select>
 
     <update id="updateUploadStatus" parameterType="com.kuka.domain.Mchk">

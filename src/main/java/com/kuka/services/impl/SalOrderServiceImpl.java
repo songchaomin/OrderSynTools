@@ -3,6 +3,7 @@ package com.kuka.services.impl;
 import com.kuka.dao.SalOrderLineMapper;
 import com.kuka.dao.SalOrderMapper;
 import com.kuka.domain.IOrder;
+import com.kuka.domain.ResultDto;
 import com.kuka.domain.SalOrder;
 import com.kuka.domain.SalOrderLine;
 import com.kuka.exeception.KukaRollbackException;
@@ -31,25 +32,30 @@ public class SalOrderServiceImpl implements SalOrderService {
     private SalOrderLineMapper salOrderLineMapper;
 
     @Override
-    public void synOrder() {
+    public ResultDto synOrder() {
+        ResultDto resultDto=new ResultDto();
         IOrder iOrder = iRmkService.synOrder();
         //校验数据
         if (iOrder.getCode()!=0){
-            log.error("接口同步有问题！原因："+iOrder.getMsg());
-           return ;
+            log.error("订单同步有问题！原因："+iOrder.getMsg());
+            resultDto.setCode(0);
+            resultDto.setMessage("订单同步有问题！原因："+iOrder.getMsg());
         }
 
         if (CollectionUtils.isEmpty(iOrder.getOrderList())){
             log.info("订单数据为空,无需同步！");
-           return ;
+            resultDto.setCode(1);
+            resultDto.setMessage("订单数据已经全部同步完毕,本次同步订单数量为0！");
+            return resultDto ;
         }
         //同步数据
-        handlerOrder(iOrder);
+        handlerOrder(iOrder,resultDto);
         //回调接口（更新订单同步标记）
-        synOrderStatus(iOrder);
+        synOrderStatus(iOrder,resultDto);
+        return resultDto;
     }
 
-    private void synOrderStatus(IOrder iOrder) {
+    private void synOrderStatus(IOrder iOrder,ResultDto resultDto) {
         List<String> orderNos=new ArrayList<>();
         iOrder.getOrderList().stream().forEach(t->{
             orderNos.add(t.getOutOrderCode());
@@ -57,7 +63,7 @@ public class SalOrderServiceImpl implements SalOrderService {
         iRmkService.synOrderStatus(orderNos);
     }
 
-    private void handlerOrder(IOrder iOrder) {
+    private void handlerOrder(IOrder iOrder,ResultDto resultDto) {
         List<SalOrder> orderList = iOrder.getOrderList();
         //获取所有的订单号
         List<String> orderNos = orderList.stream().map(t -> t.getOutOrderCode()).collect(Collectors.toList());
@@ -81,9 +87,15 @@ public class SalOrderServiceImpl implements SalOrderService {
             }
         });
         try {
-            salOrderMapper.batchInsert(insertSalOrder);
-            salOrderLineMapper.batchInsert(insertOrderLines);
+            if (!CollectionUtils.isEmpty(insertSalOrder)){
+                salOrderMapper.batchInsert(insertSalOrder);
+            }
+            if (!CollectionUtils.isEmpty(insertOrderLines)){
+                salOrderLineMapper.batchInsert(insertOrderLines);
+            }
         } catch (Exception e) {
+            resultDto.setCode(0);
+            resultDto.setMessage("订单同步有问题！原因："+e.getMessage());
             throw new KukaRollbackException(e.getMessage());
         }
     }

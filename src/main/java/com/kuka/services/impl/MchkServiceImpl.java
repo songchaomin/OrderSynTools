@@ -24,12 +24,15 @@ public class MchkServiceImpl implements MchkService {
     @Autowired
     private IRmkService iRmkService;
     @Override
-    public void synCustomer() {
+    public ResultDto synCustomer() {
+        ResultDto resultDto=new ResultDto();
         //查询100条客户信息上传到润美康
         List<Mchk> mchks = mchkExtMapper.queryMchk();
         if (CollectionUtils.isEmpty(mchks)){
-            log.info("本次没有可上传的客户信息。");
-            return ;
+            log.info("客户信息已经全部同步完毕,无需再同步！");
+            resultDto.setCode(1);
+            resultDto.setMessage("客户信息已经全部同步完毕,无需再同步！");
+            return resultDto ;
         }
         List<Customer> customers=new ArrayList<>();
         mchks.stream().forEach(t->{
@@ -40,13 +43,18 @@ public class MchkServiceImpl implements MchkService {
             customer.setStatus(1);
             customers.add(customer);
         });
-        ResultDto resultDto = iRmkService.synCustomers(customers);
+        resultDto = iRmkService.synCustomers(customers);
         if (resultDto.getCode()!=0){
             log.error("上传客户信息失败，原因："+resultDto.getMessage());
+            resultDto.setCode(0);
+            resultDto.setMessage("上传客户信息失败，原因："+resultDto.getMessage());
         }else{
             //更新上传成功标记
             mchkExtMapper.updateUploadStatus(mchks);
             log.info("上传成功，此次上传的客户编码信息为："+ JSONObject.toJSONString(mchks.stream().map(t->t.getDanwbh().trim()).collect(Collectors.toList())));
+            resultDto.setCode(1);
+            resultDto.setMessage("客户信息上传成功！");
         }
+        return resultDto;
     }
 }

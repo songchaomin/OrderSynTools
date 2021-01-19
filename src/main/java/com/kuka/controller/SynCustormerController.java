@@ -1,5 +1,6 @@
 package com.kuka.controller;
 
+import com.kuka.domain.ResultDto;
 import com.kuka.services.MchkService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,9 @@ public class SynCustormerController {
      */
     @ResponseBody
     @GetMapping("mchk/synCustomer")
-    public void synCustomer() {
-        mchkService.synCustomer();
+    public ResultDto synCustomer() {
+        ResultDto resultDto = mchkService.synCustomer();
+        return resultDto;
     }
 
 

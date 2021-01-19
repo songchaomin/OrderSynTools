@@ -1,5 +1,6 @@
 package com.kuka.controller;
 
+import com.kuka.domain.ResultDto;
 import com.kuka.services.SpkfkService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,9 @@ public class SynProductController {
      */
     @ResponseBody
     @GetMapping("spkfk/synItems")
-    public void synItems() {
-        spkfkService.synItems();
+    public ResultDto synItems() {
+        ResultDto resultDto = spkfkService.synItems();
+        return resultDto;
     }
 
 
