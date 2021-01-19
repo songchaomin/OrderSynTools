@@ -16,6 +16,8 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -32,7 +34,15 @@ public class SalOrderServiceImpl implements SalOrderService {
     public void synOrder() {
         IOrder iOrder = iRmkService.synOrder();
         //校验数据
-        validateOrder(iOrder);
+        if (iOrder.getCode()!=0){
+            log.error("接口同步有问题！原因："+iOrder.getMsg());
+           return ;
+        }
+
+        if (CollectionUtils.isEmpty(iOrder.getOrderList())){
+            log.info("订单数据为空,无需同步！");
+           return ;
+        }
         //同步数据
         handlerOrder(iOrder);
         //回调接口（更新订单同步标记）
@@ -49,35 +59,33 @@ public class SalOrderServiceImpl implements SalOrderService {
 
     private void handlerOrder(IOrder iOrder) {
         List<SalOrder> orderList = iOrder.getOrderList();
-        List<SalOrderLine> orderLines=new ArrayList<>();
+        //获取所有的订单号
+        List<String> orderNos = orderList.stream().map(t -> t.getOutOrderCode()).collect(Collectors.toList());
+        //查询中间表所有的订单号
+        List<SalOrder> salOrders = salOrderMapper.queryOrderByList(orderNos);
+        Map<String,SalOrder> salordersMap=salOrders.stream().collect(Collectors.toMap(SalOrder::getOutOrderCode, t->t,(v1, v2)->v2));
+        List<SalOrderLine> insertOrderLines=new ArrayList<>();
+        List<SalOrder> insertSalOrder=new ArrayList<>();
         orderList.stream().forEach(t->{
-            List<SalOrderLine> orderDetail = t.getOrderDetail();
-            orderDetail.stream().forEach(s->{
-                SalOrderLine salOrderLine=new SalOrderLine();
-                salOrderLine.setOutOrderCode(t.getOutOrderCode());
-                salOrderLine.setPrice(s.getPrice());
-                salOrderLine.setProdNo(s.getProdNo());
-                salOrderLine.setQuantity(s.getQuantity());
-                orderLines.add(salOrderLine);
-            });
+            if (!salordersMap.containsKey(t.getOutOrderCode())){
+                insertSalOrder.add(t);
+                List<SalOrderLine> orderDetail = t.getOrderDetail();
+                orderDetail.stream().forEach(s->{
+                    SalOrderLine salOrderLine=new SalOrderLine();
+                    salOrderLine.setOutOrderCode(t.getOutOrderCode());
+                    salOrderLine.setPrice(s.getPrice());
+                    salOrderLine.setProdNo(s.getProdNo());
+                    salOrderLine.setQuantity(s.getQuantity());
+                    insertOrderLines.add(salOrderLine);
+                });
+            }
         });
         try {
-            salOrderMapper.batchInsert(orderList);
-            salOrderLineMapper.batchInsert(orderLines);
+            salOrderMapper.batchInsert(insertSalOrder);
+            salOrderLineMapper.batchInsert(insertOrderLines);
         } catch (Exception e) {
             throw new KukaRollbackException(e.getMessage());
         }
     }
 
-    private void validateOrder(IOrder iOrder) {
-        if (iOrder.getCode()==0){
-            log.error("接口同步有问题！原因："+iOrder.getMsg());
-            throw new KukaRollbackException("接口同步有问题！原因："+iOrder.getMsg());
-        }
-
-        if (CollectionUtils.isEmpty(iOrder.getOrderList())){
-            log.info("本次无可同步的订单数据！");
-            throw new KukaRollbackException("本次无可同步的订单数据!");
-        }
-    }
 }

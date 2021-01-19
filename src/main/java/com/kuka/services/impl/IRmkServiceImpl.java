@@ -1,10 +1,10 @@
 package com.kuka.services.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.kuka.config.YamlPropertySourceFactory;
 import com.kuka.domain.*;
-import com.kuka.exeception.KukaRollbackException;
 import com.kuka.services.IRmkService;
 import com.kuka.utils.HttpClientUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +35,8 @@ public class IRmkServiceImpl implements IRmkService {
     private  String orderMarkUrl;
     @Value("${rmk.orderStatusUrl}")
     private  String orderStatusUrl;
+    @Value("${rmk.invAndPriceUrl}")
+    private  String invAndPriceUrl;
     @Override
     public ResultDto synCustomers(List<Customer> customers) {
         ResultDto resultDto=new ResultDto();
@@ -88,6 +90,7 @@ public class IRmkServiceImpl implements IRmkService {
     @Override
     public IOrder synOrder() {
         JSONObject jsonObject=new JSONObject();
+        IOrder iOrder=new IOrder();
         String timeStamp= DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss");
         String sign = HttpClientUtils.getSign(clientId,clientSecret,timeStamp);
         jsonObject.put("sign",sign);
@@ -96,11 +99,17 @@ public class IRmkServiceImpl implements IRmkService {
         jsonObject.put("branchId",branchId);
         try {
             String response = HttpClientUtils.doPost(orderGetUrl,jsonObject.toJSONString() );
-            return  (IOrder) JSONObject.parse(response);
+            JSONObject jsonResponse = JSONObject.parseObject(response);
+            iOrder.setCode((int)jsonResponse.get("code"));
+            iOrder.setMsg((String) jsonResponse.get("msg"));
+            JSONArray orderList = jsonResponse.getJSONArray("orderList");
+            if (orderList.size()>0){
+                iOrder.setOrderList(orderList.toJavaList(SalOrder.class));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return iOrder;
     }
 
     @Override
@@ -125,6 +134,31 @@ public class IRmkServiceImpl implements IRmkService {
             JSONObject jsonResponse = JSONObject.parseObject(response);
             resultDto.setCode((int)jsonResponse.get("code"));
             resultDto.setMessage((String) jsonResponse.get("msg"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultDto.setCode(999);
+            resultDto.setMessage(e.getMessage());
+        }
+        return resultDto;
+    }
+
+    @Override
+    public ResultDto synInventoryAndPrice(List<InventoryAndPrice> inventoryAndPrices) {
+        ResultDto resultDto=new ResultDto();
+        //构造数据
+        IInventoryAndPrice inventoryAndPrice=new IInventoryAndPrice();
+        inventoryAndPrice.setClientId(clientId);
+        String timeStamp= DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss");
+        String sign = HttpClientUtils.getSign(clientId,clientSecret,timeStamp);
+        inventoryAndPrice.setTimestamp(timeStamp);
+        inventoryAndPrice.setSign(sign);
+        inventoryAndPrice.setBranchId(branchId);
+        inventoryAndPrice.setProdNoList(inventoryAndPrices);
+        try {
+            String response = HttpClientUtils.doPost(invAndPriceUrl, JSONObject.toJSONString(inventoryAndPrice));
+            JSONObject jsonObject = JSONObject.parseObject(response);
+            resultDto.setCode((int)jsonObject.get("code"));
+            resultDto.setMessage((String) jsonObject.get("msg"));
         } catch (Exception e) {
             e.printStackTrace();
             resultDto.setCode(999);

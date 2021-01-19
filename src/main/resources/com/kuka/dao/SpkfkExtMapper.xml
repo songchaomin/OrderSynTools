@@ -271,4 +271,11 @@
         where spbh=#{model.spbh}
         </foreach>
     </update>
+
+    <select id="querySpkfkJc" resultType="com.kuka.domain.InventoryAndPrice">
+    select top 1000 a.spid,b.spbh as prod_no,a.kcshl as storage_number,b.hshSj as price from spkfjc a inner join spkfk b on a.spid=b.spid
+    </select>
+
+
+
 </mapper>

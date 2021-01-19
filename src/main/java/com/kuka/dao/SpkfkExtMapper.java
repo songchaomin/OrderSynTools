@@ -1,5 +1,6 @@
 package com.kuka.dao;
 
+import com.kuka.domain.InventoryAndPrice;
 import com.kuka.domain.Spkfk;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,7 @@ public interface SpkfkExtMapper {
     List<Spkfk> querySpkfk();
     //更新上传成功的标记
     void updateUploadStatus(@Param("spkfks") List<Spkfk> spkfks);
+    //查询库存和价格
+    List<InventoryAndPrice> querySpkfkJc();
+
 }

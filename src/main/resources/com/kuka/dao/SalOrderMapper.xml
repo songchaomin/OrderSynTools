@@ -123,4 +123,14 @@
         )
     </foreach>
   </insert>
+
+    <select id="queryOrderByList" resultType="com.kuka.domain.SalOrder">
+        select * from sal_order
+        <where>
+            outOrderCode in
+            <foreach collection="orderNos" index="index" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
 </mapper>

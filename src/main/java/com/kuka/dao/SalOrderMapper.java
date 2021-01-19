@@ -18,4 +18,6 @@ public interface SalOrderMapper {
     int updateByPrimaryKey(SalOrder record);
 
     int batchInsert(@Param("list") List<SalOrder> list);
+
+    List<SalOrder> queryOrderByList(@Param("orderNos") List<String> orderNos);
 }

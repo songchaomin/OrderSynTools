@@ -15,3 +15,4 @@ rmk:
   orderGetUrl: https://test-runapi.medi-care.com.cn/v1/open/orderGrab
   orderMarkUrl: https://test-runapi.medi-care.com.cn/v1/open/orderMark
   orderStatusUrl: https://test-runapi.medi-care.com.cn/v1/msg/order
+  invAndPriceUrl: https://test-runapi.medi-care.com.cn/v1/open/productPriceSync

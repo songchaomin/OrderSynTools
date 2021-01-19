@@ -2,6 +2,7 @@ package com.kuka.services.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kuka.dao.SpkfkExtMapper;
+import com.kuka.domain.InventoryAndPrice;
 import com.kuka.domain.Product;
 import com.kuka.domain.ResultDto;
 import com.kuka.domain.Spkfk;
@@ -52,6 +53,18 @@ public class SpkfkServiceImpl implements SpkfkService {
             //更新上传成功标记
             spkfkExtMapper.updateUploadStatus(spkfks);
             log.info("上传成功，此次上传的客户编码信息为：" + JSONObject.toJSONString(spkfks.stream().map(t -> t.getSpbh().trim()).collect(Collectors.toList())));
+        }
+    }
+
+    @Override
+    public void synInventoryAndPrice() {
+        List<InventoryAndPrice> inventoryAndPrices = spkfkExtMapper.querySpkfkJc();
+        ResultDto resultDto = rmkInterfaceService.synInventoryAndPrice(inventoryAndPrices);
+        if (resultDto.getCode() != 0) {
+            log.error("上传库存和商品价格失败，原因：" + resultDto.getMessage());
+        } else {
+            //更新上传成功标记
+            log.info("上传成功，此次上传的库存和商品价格信息为：" + JSONObject.toJSONString(inventoryAndPrices.stream().map(t -> t.getProdNo().trim()).collect(Collectors.toList())));
         }
     }
 }

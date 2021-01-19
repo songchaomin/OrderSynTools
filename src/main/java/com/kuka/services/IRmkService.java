@@ -1,10 +1,7 @@
 package com.kuka.services;
 
 
-import com.kuka.domain.Customer;
-import com.kuka.domain.IOrder;
-import com.kuka.domain.Product;
-import com.kuka.domain.ResultDto;
+import com.kuka.domain.*;
 
 import java.util.List;
 
@@ -19,4 +16,7 @@ public interface IRmkService {
     ResultDto synOrderMark(List<String> orderNo);
     //订单状态回写接口
     ResultDto synOrderStatus (List<String> orderNo);
+    //同步库存和价格
+    ResultDto synInventoryAndPrice(List<InventoryAndPrice> inventoryAndPrices);
+
 }
