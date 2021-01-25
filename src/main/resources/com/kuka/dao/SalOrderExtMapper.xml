@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuka.dao.SalOrderExtMapper">
+  <resultMap id="BaseResultMap_ext" type="com.kuka.domain.SalOrder">
+    <!--@mbg.generated-->
+    <!--@Table sal_order-->
+    <id column="out_order_code" jdbcType="VARCHAR" property="outOrderCode" />
+    <result column="branch_id" jdbcType="VARCHAR" property="branchId" />
+    <result column="danw_bh" jdbcType="VARCHAR" property="danwBh" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="is_online_pay" jdbcType="TINYINT" property="isOnlinePay" />
+  </resultMap>
+  <sql id="Base_Column_List_ext">
+    <!--@mbg.generated-->
+    out_order_code, branch_id, danwbh, create_time, note, is_online_pay
+  </sql>
+
+    <select id="queryOrderByList" resultType="com.kuka.domain.SalOrder">
+        select * from sal_order
+        <where>
+            out_order_code in
+            <foreach collection="orderNos" index="index" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+</mapper>

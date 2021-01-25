@@ -6,9 +6,11 @@ import com.kuka.domain.IOrder;
 import com.kuka.domain.ResultDto;
 import com.kuka.domain.SalOrder;
 import com.kuka.domain.SalOrderLine;
+import com.kuka.enums.OperatorTypeEnum;
 import com.kuka.exeception.KukaRollbackException;
 import com.kuka.services.IRmkService;
 import com.kuka.services.SalOrderService;
+import com.kuka.utils.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,22 +32,25 @@ public class SalOrderServiceImpl implements SalOrderService {
     private SalOrderMapper salOrderMapper;
     @Autowired
     private SalOrderLineMapper salOrderLineMapper;
-
+    @Autowired
+    private LogUtils logUtils;
     @Override
     public ResultDto synOrder() {
         ResultDto resultDto=new ResultDto();
         IOrder iOrder = iRmkService.synOrder();
         //校验数据
         if (iOrder.getCode()!=0){
+            logUtils.makeLog("0","订单同步有问题！原因："+iOrder.getMsg(), OperatorTypeEnum.ORDER.getType());
             log.error("订单同步有问题！原因："+iOrder.getMsg());
             resultDto.setCode(0);
             resultDto.setMessage("订单同步有问题！原因："+iOrder.getMsg());
         }
 
         if (CollectionUtils.isEmpty(iOrder.getOrderList())){
-            log.info("订单数据为空,无需同步！");
+            log.info("已同步完成，此次同步的数据为0条,请查询。");
+            logUtils.makeLog("1","已同步完成，此次同步的数据为0条,请查询。", OperatorTypeEnum.ORDER.getType());
             resultDto.setCode(1);
-            resultDto.setMessage("订单数据已经全部同步完毕,本次同步订单数量为0！");
+            resultDto.setMessage("已同步完成，此次同步的数据为0条,请查询。");
             return resultDto ;
         }
         //同步数据
@@ -93,7 +98,11 @@ public class SalOrderServiceImpl implements SalOrderService {
             if (!CollectionUtils.isEmpty(insertOrderLines)){
                 salOrderLineMapper.batchInsert(insertOrderLines);
             }
+            resultDto.setCode(1);
+            resultDto.setMessage("订单同步完成，此次同步的数据为"+insertSalOrder.size()+"条,请查询。");
+            logUtils.makeLog("1","订单同步完成，此次同步的数据为"+insertSalOrder.size()+"条,请查询。", OperatorTypeEnum.ORDER.getType());
         } catch (Exception e) {
+            logUtils.makeLog("0","订单同步有问题！原因："+e.getMessage(), OperatorTypeEnum.ORDER.getType());
             resultDto.setCode(0);
             resultDto.setMessage("订单同步有问题！原因："+e.getMessage());
             throw new KukaRollbackException(e.getMessage());

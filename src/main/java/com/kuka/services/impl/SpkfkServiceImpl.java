@@ -6,8 +6,10 @@ import com.kuka.domain.InventoryAndPrice;
 import com.kuka.domain.Product;
 import com.kuka.domain.ResultDto;
 import com.kuka.domain.Spkfk;
+import com.kuka.enums.OperatorTypeEnum;
 import com.kuka.services.IRmkService;
 import com.kuka.services.SpkfkService;
+import com.kuka.utils.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +27,15 @@ public class SpkfkServiceImpl implements SpkfkService {
     private IRmkService rmkInterfaceService;
     @Autowired
     private SpkfkExtMapper spkfkExtMapper;
+    @Autowired
+    private LogUtils logUtils;
     @Override
     public ResultDto synItems() {
         ResultDto resultDto=new ResultDto();
         //查询要上传的商品资料
         List<Spkfk> spkfks = spkfkExtMapper.querySpkfk();
         if (CollectionUtils.isEmpty(spkfks)){
+            logUtils.makeLog("1","商品资料已经全部同步完毕,无需再同步！", OperatorTypeEnum.ITEM.getType());
             log.info("本次没有可上传的商品资料。");
             resultDto.setCode(1);
             resultDto.setMessage("商品资料已经全部同步完毕,无需再同步！");
@@ -39,7 +44,7 @@ public class SpkfkServiceImpl implements SpkfkService {
         List<Product> products = new ArrayList<>();
         spkfks.stream().forEach(t -> {
             Product product = new Product();
-            product.setProdNo(t.getSpbh().trim());
+            product.setProdNo(t.getSpid().trim());
             product.setProdName(t.getSpmch());
             product.setProdBarcode(t.getSptm());//条形码
             product.setSpecification(t.getShpgg());
@@ -51,13 +56,15 @@ public class SpkfkServiceImpl implements SpkfkService {
         });
          resultDto = rmkInterfaceService.synProducts(products);
         if (resultDto.getCode() != 0) {
+            logUtils.makeLog("0","上传商品信息失败，原因：" + resultDto.getMessage(), OperatorTypeEnum.ITEM.getType());
             log.error("上传商品信息失败，原因：" + resultDto.getMessage());
             resultDto.setCode(0);
             resultDto.setMessage("上传商品信息失败，原因：" + resultDto.getMessage());
         } else {
             //更新上传成功标记
             spkfkExtMapper.updateUploadStatus(spkfks);
-            log.info("上传成功，此次上传的商品信息编码为：" + JSONObject.toJSONString(spkfks.stream().map(t -> t.getSpbh().trim()).collect(Collectors.toList())));
+            logUtils.makeLog("1","上传成功，此次上传的商品信息编码为：" + JSONObject.toJSONString(spkfks.stream().map(t -> t.getSpid().trim()).collect(Collectors.toList())), OperatorTypeEnum.ITEM.getType());
+            log.info("上传成功，此次上传的商品信息编码为：" + JSONObject.toJSONString(spkfks.stream().map(t -> t.getSpid().trim()).collect(Collectors.toList())));
             resultDto.setCode(1);
             resultDto.setMessage("商品资料上传成功！");
         }
@@ -68,15 +75,17 @@ public class SpkfkServiceImpl implements SpkfkService {
     public ResultDto synInventoryAndPrice() {
         ResultDto resultDto=new ResultDto();
         List<InventoryAndPrice> inventoryAndPrices = spkfkExtMapper.querySpkfkJc();
-        inventoryAndPrices.stream().forEach(t->t.setProdNo(t.getProdNo().trim()));
+        inventoryAndPrices.stream().forEach(t->t.setProdNo(t.getSpid().trim()));
          resultDto = rmkInterfaceService.synInventoryAndPrice(inventoryAndPrices);
         if (resultDto.getCode() != 0) {
+            logUtils.makeLog("0","上传库存和商品价格失败，原因：" + resultDto.getMessage(), OperatorTypeEnum.INV.getType());
             log.error("上传库存和商品价格失败，原因：" + resultDto.getMessage());
             resultDto.setCode(0);
             resultDto.setMessage("上传库存和商品价格失败，原因：" + resultDto.getMessage());
         } else {
             //更新上传成功标记
             log.info("上传成功，此次上传的库存和商品价格信息为：" + JSONObject.toJSONString(inventoryAndPrices.stream().map(t -> t.getProdNo().trim()).collect(Collectors.toList())));
+            logUtils.makeLog("1","库存和商品价格资料上传成功！", OperatorTypeEnum.INV.getType());
             resultDto.setCode(1);
             resultDto.setMessage("库存和商品价格资料上传成功！");
         }

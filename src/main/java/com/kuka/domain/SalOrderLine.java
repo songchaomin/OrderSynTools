@@ -11,6 +11,8 @@ public class SalOrderLine {
 
     private BigDecimal price;
 
+    private String note;
+
     public String getOutOrderCode() {
         return outOrderCode;
     }
@@ -41,5 +43,13 @@ public class SalOrderLine {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

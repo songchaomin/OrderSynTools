@@ -259,7 +259,7 @@
   </sql>
 
   <select id="querySpkfk" resultType="com.kuka.domain.Spkfk">
-     select top 100 spbh,spmch,shpgg,dw, jlgg from spkfk where upload_status!=1 and beactive='是'
+     select top 100 spid,spbh,spmch,shpgg,dw, jlgg from spkfk where upload_status!=1 and jingd='是'
   </select>
 
     <update id="updateUploadStatus" parameterType="com.kuka.domain.Spkfk">
@@ -268,7 +268,7 @@
         <set>
             upload_status=1
         </set>
-        where spbh=#{model.spbh}
+        where spid=#{model.spid}
         </foreach>
     </update>
 
