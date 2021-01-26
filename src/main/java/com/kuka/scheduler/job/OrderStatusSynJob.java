@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 public class OrderStatusSynJob implements Job {
     @Autowired
     private SalOrderService salOrderService;
+
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-    salOrderService.synOrderStatus();
+        log.info("开始同步订单发货状态");
+        salOrderService.synOrderStatus();
+        log.info("同步订单发货状态结束");
     }
 }
