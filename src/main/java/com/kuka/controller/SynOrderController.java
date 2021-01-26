@@ -24,6 +24,12 @@ public class SynOrderController {
        return salOrderService.synOrder();
     }
 
+    @ResponseBody
+    @GetMapping("order/synOrderStatus")
+    public ResultDto synOrderStatus() {
+        return salOrderService.synOrderStatus();
+    }
+
 
 
 }

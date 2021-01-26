@@ -1,9 +1,9 @@
 
 -- 客户信息上传标记0：未上传 1：已上传
-alter table mchk add  upload_status tinyint not Null Default 0;
+alter table mchk add  upload_status tinyint  Default 0;
 
 -- 料品信息上传标记0：未上传 1：已上传
-alter table spkfk add  upload_status tinyint not Null Default 0;
+alter table spkfk add  upload_status tinyint  Default 0;
 
 
 -- 订单表(中间表)
@@ -16,7 +16,8 @@ note varchar (256) ,-- 订单备注
 is_online_pay tinyint, -- 是否在线⽀付 1-是， 0-否
 is_zx varchar(4) -- ERP订单生成标记
 )
-
+-- 订单上传标记0：未上传 1：已上传
+alter table sal_order add  upload_status tinyint  Default 0;
 
 -- 订单行(中间表)
 create table sal_order_line(

@@ -13,9 +13,9 @@ public interface IRmkService {
     //订单同步接口
     IOrder synOrder();
     //订单同步状态回写接口
-    ResultDto synOrderMark(List<String> orderNo);
+    ResultDto synOrderStatus(SalOrder salOrder);
     //订单状态回写接口
-    ResultDto synOrderStatus (List<String> orderNo);
+    ResultDto markerOrderStatus(List<String> orderNo);
     //同步库存和价格
     ResultDto synInventoryAndPrice(List<InventoryAndPrice> inventoryAndPrices);
 

@@ -121,13 +121,38 @@ public class IRmkServiceImpl implements IRmkService {
     }
 
     @Override
-    public ResultDto synOrderMark(List<String> orderNo) {
+    public ResultDto synOrderStatus(SalOrder salOrder) {
         ResultDto resultDto=new ResultDto();
+        JSONObject jsonObject=new JSONObject();
+        String timeStamp= DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss");
+        String sign = HttpClientUtils.getSign(clientId,clientSecret,timeStamp);
+        jsonObject.put("sign",sign);
+        jsonObject.put("timestamp",timeStamp);
+        jsonObject.put("clientId",clientId);
+        jsonObject.put("branchId",branchId);
+        jsonObject.put("outOrderCode",salOrder.getOutOrderCode());
+        jsonObject.put("orderCode",salOrder.getOrderCode());
+        jsonObject.put("danwBh",salOrder.getDanwBh());
+        jsonObject.put("orderStatus",5);
+        jsonObject.put("payAmount",salOrder.getPayAmount());
+        jsonObject.put("payStatus",1);
+        jsonObject.put("failMsg","订单回传状态失败");
+        jsonObject.put("orderDetail",salOrder.getOrderDetail());
+        try {
+            String response = HttpClientUtils.doPost(orderStatusUrl,jsonObject.toJSONString() );
+            JSONObject jsonResponse = JSONObject.parseObject(response);
+            resultDto.setCode((int)jsonResponse.get("code"));
+            resultDto.setMessage((String) jsonResponse.get("msg"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultDto.setCode(999);
+            resultDto.setMessage(e.getMessage());
+        }
         return resultDto;
     }
 
     @Override
-    public ResultDto synOrderStatus(List<String> orderNos) {
+    public ResultDto markerOrderStatus(List<String> orderNos) {
         ResultDto resultDto=new ResultDto();
         JSONObject jsonObject=new JSONObject();
         String timeStamp= DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss");

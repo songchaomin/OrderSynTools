@@ -114,4 +114,21 @@
         #{item.msg,jdbcType=VARCHAR}, #{item.createTime,jdbcType=DATE})
     </foreach>
   </insert>
+
+    <select id="queryOperatorLogCount" resultType="java.lang.Long">
+        select count(1) from operator_log
+    </select>
+
+    <select id="queryOperatorLogList" resultType="com.kuka.domain.OperatorLog">
+        SELECT * FROM
+        (
+        SELECT ROW_NUMBER() OVER (ORDER BY id) AS RowNum, *
+        FROM (
+        select *
+        from operator_log
+        ) a
+        )b
+
+        WHERE RowNum BETWEEN (#{pageDto.page}-1)*#{pageDto.limit}+1 AND #{pageDto.page}*#{pageDto.limit}
+    </select>
 </mapper>

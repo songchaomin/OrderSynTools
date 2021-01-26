@@ -11,10 +11,11 @@
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="is_online_pay" jdbcType="TINYINT" property="isOnlinePay" />
     <result column="is_zx" jdbcType="VARCHAR" property="isZx" />
+    <result column="upload_status" jdbcType="TINYINT" property="uploadStatus" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    out_order_code, branch_id, danw_bh, create_time, note, is_online_pay, is_zx
+    out_order_code, branch_id, danw_bh, create_time, note, is_online_pay, is_zx, upload_status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -32,10 +33,10 @@
     <!--@mbg.generated-->
     insert into sal_order (out_order_code, branch_id, danw_bh, 
       create_time, note, is_online_pay, 
-      is_zx)
+      is_zx, upload_status)
     values (#{outOrderCode,jdbcType=VARCHAR}, #{branchId,jdbcType=VARCHAR}, #{danwBh,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{isOnlinePay,jdbcType=TINYINT}, 
-      #{isZx,jdbcType=VARCHAR})
+      #{isZx,jdbcType=VARCHAR}, #{uploadStatus,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuka.domain.SalOrder">
     <!--@mbg.generated-->
@@ -62,6 +63,9 @@
       <if test="isZx != null">
         is_zx,
       </if>
+      <if test="uploadStatus != null">
+        upload_status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="outOrderCode != null">
@@ -84,6 +88,9 @@
       </if>
       <if test="isZx != null">
         #{isZx,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadStatus != null">
+        #{uploadStatus,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -109,6 +116,9 @@
       <if test="isZx != null">
         is_zx = #{isZx,jdbcType=VARCHAR},
       </if>
+      <if test="uploadStatus != null">
+        upload_status = #{uploadStatus,jdbcType=TINYINT},
+      </if>
     </set>
     where out_order_code = #{outOrderCode,jdbcType=VARCHAR}
   </update>
@@ -120,18 +130,20 @@
       create_time = #{createTime,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
       is_online_pay = #{isOnlinePay,jdbcType=TINYINT},
-      is_zx = #{isZx,jdbcType=VARCHAR}
+      is_zx = #{isZx,jdbcType=VARCHAR},
+      upload_status = #{uploadStatus,jdbcType=TINYINT}
     where out_order_code = #{outOrderCode,jdbcType=VARCHAR}
   </update>
   <insert id="batchInsert" parameterType="map">
     <!--@mbg.generated-->
     insert into sal_order
-    (out_order_code, branch_id, danw_bh, create_time, note, is_online_pay, is_zx)
+    (out_order_code, branch_id, danw_bh, create_time, note, is_online_pay, is_zx, upload_status
+      )
     values
     <foreach collection="list" item="item" separator=",">
       (#{item.outOrderCode,jdbcType=VARCHAR}, #{item.branchId,jdbcType=VARCHAR}, #{item.danwBh,jdbcType=VARCHAR}, 
         #{item.createTime,jdbcType=VARCHAR}, #{item.note,jdbcType=VARCHAR}, #{item.isOnlinePay,jdbcType=TINYINT}, 
-        #{item.isZx,jdbcType=VARCHAR})
+        #{item.isZx,jdbcType=VARCHAR}, #{item.uploadStatus,jdbcType=TINYINT})
     </foreach>
   </insert>
 

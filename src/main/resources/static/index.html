@@ -50,6 +50,27 @@
             }
             menuEvent.changeTab("menu_tab", dataId);
         });
+
+        //首页Table
+        var table = layui.table;
+        table.render({
+            elem: '#log'
+            ,method:'post'
+            ,contentType: 'application/json'
+            ,url:'log/operatorLog'
+            ,cols: [[
+                 {field:'id', width:80, title: '主键', sort: true}
+                ,{field:'type', width:180, title: '类型'}
+                ,{field:'typeName', width:150, title: '类型名称', sort: true}
+                ,{field:'code', width:180, title: '是否成功'}
+                ,{field:'msg', title: '信息', width: 180}
+                ,{field:'createTime', width:180, title: '创建时间', sort: true}
+            ]]
+            ,page:{ //开启分页
+                limit: 10,//指定每页显示的条数
+                limits: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50],//每页条数的选择项
+        }
+        });
         element.init();
     });
 </script>
@@ -61,7 +82,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     <img src="" class="layui-nav-img">
-                    贤心
+                    管理员
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
@@ -89,12 +110,11 @@
     <div class="layui-body">
         <div class="layui-tab" lay-allowClose="true" lay-filter="menu_tab">
             <ul class="layui-tab-title">
-                <li class="layui-this">首页</li>
+                <li class="layui-this">操作日志</li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-
-
+                    <table id="log" lay-filter="log"></table>
                 </div>
             </div>
         </div>

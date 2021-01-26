@@ -1,11 +1,10 @@
 package com.kuka.services.impl;
 
+import com.kuka.dao.SalOrderExtMapper;
 import com.kuka.dao.SalOrderLineMapper;
 import com.kuka.dao.SalOrderMapper;
-import com.kuka.domain.IOrder;
-import com.kuka.domain.ResultDto;
-import com.kuka.domain.SalOrder;
-import com.kuka.domain.SalOrderLine;
+import com.kuka.dao.SpkfkExtMapper;
+import com.kuka.domain.*;
 import com.kuka.enums.OperatorTypeEnum;
 import com.kuka.exeception.KukaRollbackException;
 import com.kuka.services.IRmkService;
@@ -34,6 +33,10 @@ public class SalOrderServiceImpl implements SalOrderService {
     private SalOrderLineMapper salOrderLineMapper;
     @Autowired
     private LogUtils logUtils;
+    @Autowired
+    private SalOrderExtMapper salOrderExtMapper;
+    @Autowired
+    private SpkfkExtMapper spkfkExtMapper;
     @Override
     public ResultDto synOrder() {
         ResultDto resultDto=new ResultDto();
@@ -56,16 +59,16 @@ public class SalOrderServiceImpl implements SalOrderService {
         //同步数据
         handlerOrder(iOrder,resultDto);
         //回调接口（更新订单同步标记）
-        synOrderStatus(iOrder,resultDto);
+        makerOrderStatus(iOrder,resultDto);
         return resultDto;
     }
 
-    private void synOrderStatus(IOrder iOrder,ResultDto resultDto) {
+    private void makerOrderStatus(IOrder iOrder, ResultDto resultDto) {
         List<String> orderNos=new ArrayList<>();
         iOrder.getOrderList().stream().forEach(t->{
             orderNos.add(t.getOutOrderCode());
         });
-        iRmkService.synOrderStatus(orderNos);
+        iRmkService.markerOrderStatus(orderNos);
     }
 
     private void handlerOrder(IOrder iOrder,ResultDto resultDto) {
@@ -79,6 +82,7 @@ public class SalOrderServiceImpl implements SalOrderService {
         List<SalOrder> insertSalOrder=new ArrayList<>();
         orderList.stream().forEach(t->{
             if (!salordersMap.containsKey(t.getOutOrderCode())){
+                t.setUploadStatus((byte)0);
                 insertSalOrder.add(t);
                 List<SalOrderLine> orderDetail = t.getOrderDetail();
                 orderDetail.stream().forEach(s->{
@@ -109,4 +113,44 @@ public class SalOrderServiceImpl implements SalOrderService {
         }
     }
 
+
+    @Override
+    public ResultDto synOrderStatus() {
+        ResultDto resultDto=new ResultDto();
+        //查询变动的订单状态集合
+        List<SalOrder> salOrders = salOrderExtMapper.queryOrderStatus();
+        if (!CollectionUtils.isEmpty(salOrders)){
+            List<String> outOrderCodes = salOrders.stream().map(t -> t.getOutOrderCode()).collect(Collectors.toList());
+            List<SalOrderLine> salorderDetail = salOrderExtMapper.queryOrderLineByStatus(outOrderCodes);
+            Map<String, List<SalOrderLine>>orderDetailMap = salorderDetail.stream().collect(Collectors.groupingBy(SalOrderLine::getOutOrderCode));
+            for (SalOrder salOrder:salOrders){
+                String outOrderCode = salOrder.getOutOrderCode();
+                if (orderDetailMap.containsKey(outOrderCode)){
+                    salOrder.setOrderDetail(orderDetailMap.get(outOrderCode));
+                }
+                 resultDto = iRmkService.synOrderStatus(salOrder);
+                if (resultDto.getCode()==0){
+                    //更新同步状态
+                    SalOrder updateSalOrder=new SalOrder();
+                    updateSalOrder.setOutOrderCode(outOrderCode);
+                    updateSalOrder.setUploadStatus((byte)1);
+                    salOrderMapper.updateByPrimaryKeySelective(updateSalOrder);
+                    logUtils.makeLog("1","订单号："+outOrderCode+"同步上传成功！",OperatorTypeEnum.ORDERSTATUS.getType());
+                }
+            }
+            //上传库存数据
+            List<String> spids = salorderDetail.stream().map(t -> t.getProdNo()).collect(Collectors.toList());
+            List<InventoryAndPrice> inventoryAndPrices = spkfkExtMapper.querySpkfkJcBySpid(spids);
+            ResultDto invResultDto = iRmkService.synInventoryAndPrice(inventoryAndPrices);
+            if (invResultDto.getCode()==1){
+                logUtils.makeLog("1","订单状态更新后同步库存数据成功！",OperatorTypeEnum.ORDERSTATUS.getType());
+            }else{
+                logUtils.makeLog("0","订单状态更新后同步库存数据不成功！原因："+invResultDto.getMessage(),OperatorTypeEnum.ORDERSTATUS.getType());
+            }
+        }else{
+            resultDto.setCode(1);
+            resultDto.setMessage("本次订单状态同步已完成，共上传了【0】条订单");
+        }
+        return resultDto;
+    }
 }

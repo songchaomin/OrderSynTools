@@ -16,4 +16,7 @@ public interface SpkfkExtMapper {
     //查询库存和价格
     List<InventoryAndPrice> querySpkfkJc();
 
+    //查询库存和价格
+    List<InventoryAndPrice> querySpkfkJcBySpid(@Param("spids") List<String> spids);
+
 }

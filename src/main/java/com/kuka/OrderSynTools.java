@@ -1,5 +1,7 @@
 package com.kuka;
 
+import com.kuka.event.OrderStatusSynEvent;
+import com.kuka.event.OrderSynEvent;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,5 +23,7 @@ public class OrderSynTools
     {
         SpringApplication springApplication=new SpringApplication(OrderSynTools.class);
         ConfigurableApplicationContext context = springApplication.run(args);
+        context.publishEvent(new OrderSynEvent(new Object()));
+        context.publishEvent(new OrderStatusSynEvent(new Object()));
     }
 }

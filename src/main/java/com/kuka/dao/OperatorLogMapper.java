@@ -2,6 +2,8 @@ package com.kuka.dao;
 
 import com.kuka.domain.OperatorLog;
 import java.util.List;
+
+import com.kuka.domain.ResultPageDto;
 import org.apache.ibatis.annotations.Param;
 
 public interface OperatorLogMapper {
@@ -18,4 +20,9 @@ public interface OperatorLogMapper {
     int updateByPrimaryKey(OperatorLog record);
 
     int batchInsert(@Param("list") List<OperatorLog> list);
+
+
+    long queryOperatorLogCount();
+
+    List<OperatorLog> queryOperatorLogList(@Param("pageDto") ResultPageDto pageDto);
 }
