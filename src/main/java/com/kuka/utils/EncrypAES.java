@@ -183,11 +183,9 @@ public class EncrypAES {
     }
 
     public static String getLocalMac() throws SocketException, UnknownHostException {
-        // TODO Auto-generated method stub
         InetAddress ia = InetAddress.getLocalHost();
         //获取网卡，获取地址
         byte[] mac = NetworkInterface.getByInetAddress(ia).getHardwareAddress();
-        System.out.println("mac数组长度："+mac.length);
         StringBuffer sb = new StringBuffer("");
         for(int i=0; i<mac.length; i++) {
             if(i!=0) {
