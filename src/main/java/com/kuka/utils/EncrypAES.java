@@ -213,8 +213,8 @@ public class EncrypAES {
             e.printStackTrace();
         }
         String md5 = md5(localMac);
-        System.out.println(localMac);
-        System.out.println(md5);
+
+        System.out.println("sn："+md5);
     }
 
 }
