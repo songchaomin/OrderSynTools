@@ -142,7 +142,7 @@ public class SalOrderServiceImpl implements SalOrderService {
             List<String> spids = salorderDetail.stream().map(t -> t.getProdNo()).collect(Collectors.toList());
             List<InventoryAndPrice> inventoryAndPrices = spkfkExtMapper.querySpkfkJcBySpid(spids);
             ResultDto invResultDto = iRmkService.synInventoryAndPrice(inventoryAndPrices);
-            if (invResultDto.getCode()==1){
+            if (invResultDto.getCode()==0){
                 logUtils.makeLog("1","订单状态更新后同步库存数据成功！",OperatorTypeEnum.ORDERSTATUS.getType());
             }else{
                 logUtils.makeLog("0","订单状态更新后同步库存数据不成功！原因："+invResultDto.getMessage(),OperatorTypeEnum.ORDERSTATUS.getType());

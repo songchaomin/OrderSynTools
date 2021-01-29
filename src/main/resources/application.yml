@@ -21,3 +21,7 @@ logging:
   config: classpath:logback-spring.xml
   path: /OrderSynToolsLog
 
+reg:
+  sn: 312192c35c49f1d6c189bddaa29c4e0c
+
+
