@@ -128,7 +128,47 @@ public class SalOrderServiceImpl implements SalOrderService {
                 if (orderDetailMap.containsKey(outOrderCode)){
                     salOrder.setOrderDetail(orderDetailMap.get(outOrderCode));
                 }
-                 resultDto = iRmkService.synOrderStatus(salOrder);
+                 resultDto = iRmkService.synOrderStatus(salOrder,0);
+                if (resultDto.getCode()==0){
+                    //更新同步状态
+                    SalOrder updateSalOrder=new SalOrder();
+                    updateSalOrder.setOutOrderCode(outOrderCode);
+                    updateSalOrder.setUploadStatus((byte)1);
+                    salOrderMapper.updateByPrimaryKeySelective(updateSalOrder);
+                    logUtils.makeLog("1","订单号："+outOrderCode+"同步上传成功！",OperatorTypeEnum.ORDERSTATUS.getType());
+                }
+            }
+            //上传库存数据
+            List<String> spids = salorderDetail.stream().map(t -> t.getProdNo()).collect(Collectors.toList());
+            List<InventoryAndPrice> inventoryAndPrices = spkfkExtMapper.querySpkfkJcBySpid(spids);
+            ResultDto invResultDto = iRmkService.synInventoryAndPrice(inventoryAndPrices);
+            if (invResultDto.getCode()==0){
+                logUtils.makeLog("1","订单状态更新后同步库存数据成功！",OperatorTypeEnum.ORDERSTATUS.getType());
+            }else{
+                logUtils.makeLog("0","订单状态更新后同步库存数据不成功！原因："+invResultDto.getMessage(),OperatorTypeEnum.ORDERSTATUS.getType());
+            }
+        }else{
+            resultDto.setCode(1);
+            resultDto.setMessage("本次订单状态同步已完成，共上传了【0】条订单");
+        }
+        return resultDto;
+    }
+
+    @Override
+    public ResultDto synRebackOrderStatus() {
+        ResultDto resultDto=new ResultDto();
+        //查询变动的订单状态集合
+        List<SalOrder> salOrders = salOrderExtMapper.queryBackOrderStatus();
+        if (!CollectionUtils.isEmpty(salOrders)){
+            List<String> outOrderCodes = salOrders.stream().map(t -> t.getOutOrderCode()).collect(Collectors.toList());
+            List<SalOrderLine> salorderDetail = salOrderExtMapper.queryBackOrderLineByStatus(outOrderCodes);
+            Map<String, List<SalOrderLine>>orderDetailMap = salorderDetail.stream().collect(Collectors.groupingBy(SalOrderLine::getOutOrderCode));
+            for (SalOrder salOrder:salOrders){
+                String outOrderCode = salOrder.getOutOrderCode();
+                if (orderDetailMap.containsKey(outOrderCode)){
+                    salOrder.setOrderDetail(orderDetailMap.get(outOrderCode));
+                }
+                resultDto = iRmkService.synOrderStatus(salOrder,1);
                 if (resultDto.getCode()==0){
                     //更新同步状态
                     SalOrder updateSalOrder=new SalOrder();

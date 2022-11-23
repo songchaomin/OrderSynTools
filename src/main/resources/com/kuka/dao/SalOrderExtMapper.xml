@@ -29,8 +29,9 @@
     <select id="queryOrderStatus" resultType="com.kuka.domain.SalOrder">
         select a.out_order_code,a.danw_bh,a.branch_id,c.djbh as orderCode, sum(c.hsje) as payAmount from sal_order a
         inner join sal_order_line b on a.out_order_code=b.out_order_code
+        inner join pf_ckhz e on a.out_order_code=e.out_order_code
         inner join pf_ckmx c on a.out_order_code=c.out_order_code
-        where b.is_zx='是' and a.upload_status=0
+        where b.is_zx='是' and a.upload_status=0 and e.zt=0
         group by a.out_order_code,a.danw_bh,a.branch_id,c.djbh
     </select>
 
@@ -38,6 +39,28 @@
         select * from sal_order_line
         <where>
             out_order_code in
+            <foreach collection="orderNos" index="index" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+    <select id="queryBackOrderStatus" resultType="com.kuka.domain.SalOrder">
+         select a.out_order_code,a.danw_bh,a.branch_id,c.djbh as orderCode, sum(c.hsje) as payAmount from sal_order a
+        inner join sal_order_line b on a.out_order_code=b.out_order_code
+        inner join pf_ckhz e on a.out_order_code=e.out_order_code
+        inner join pf_ckmx c on a.out_order_code=c.out_order_code
+        where b.is_zx='是' and a.upload_status=0 and e.zt=1
+        group by a.out_order_code,a.danw_bh,a.branch_id,c.djbh
+    </select>
+    <select id="queryBackOrderLineByStatus" resultType="com.kuka.domain.SalOrderLine">
+
+        select b.out_order_code,b.prod_no,b.price,c.thshl as quantity from sal_order a
+        inner join sal_order_line b on a.out_order_code=b.out_order_code
+        inner join pf_ckhz e on a.out_order_code=e.out_order_code
+        inner join pf_ckmx c on a.out_order_code=c.out_order_code
+        where b.is_zx='是' and a.upload_status=0 and e.zt=1 and
+        <where>
+            a.out_order_code in
             <foreach collection="orderNos" index="index" item="item" separator="," open="(" close=")">
                 #{item}
             </foreach>

@@ -13,7 +13,7 @@ public class OperatorLog {
 
     private String msg;
 
-    private Date createTime;
+    private String createTime;
 
     public Integer getId() {
         return id;
@@ -55,11 +55,11 @@ public class OperatorLog {
         this.msg = msg;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 }

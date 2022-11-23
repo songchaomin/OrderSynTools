@@ -1,10 +1,9 @@
 #测试数据库配置信息
 jdbc:
-  driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-  url: jdbc:sqlserver://localhost:1433;DatabaseName=ksoa
+  driverClassName: net.sourceforge.jtds.jdbc.Driver
+  url: jdbc:jtds:sqlserver://localhost:1433;DatabaseName=ksoa
   username: sa
-  password: scm123
-
+  password: asd159
 
 rmk:
   clientId : fc3dfedc4d34b4f06d13d3e0b0f6cb96

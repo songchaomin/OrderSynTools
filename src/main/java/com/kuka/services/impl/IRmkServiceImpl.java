@@ -121,7 +121,7 @@ public class IRmkServiceImpl implements IRmkService {
     }
 
     @Override
-    public ResultDto synOrderStatus(SalOrder salOrder) {
+    public ResultDto synOrderStatus(SalOrder salOrder,int status) {
         ResultDto resultDto=new ResultDto();
         JSONObject jsonObject=new JSONObject();
         String timeStamp= DateUtil.format(new Date(),"yyyy-MM-dd HH:mm:ss");
@@ -133,7 +133,12 @@ public class IRmkServiceImpl implements IRmkService {
         jsonObject.put("outOrderCode",salOrder.getOutOrderCode());
         jsonObject.put("orderCode",salOrder.getOrderCode());
         jsonObject.put("danwBh",salOrder.getDanwBh());
-        jsonObject.put("orderStatus",5);
+        if (status==0){
+            jsonObject.put("orderStatus",5);
+        }else{
+            jsonObject.put("orderStatus",16);
+        }
+
         jsonObject.put("payAmount",salOrder.getPayAmount());
         jsonObject.put("payStatus",1);
         jsonObject.put("failMsg","订单回传状态失败");

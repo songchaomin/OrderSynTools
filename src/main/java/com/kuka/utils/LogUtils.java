@@ -3,6 +3,7 @@ package com.kuka.utils;
 
 import com.kuka.dao.OperatorLogMapper;
 import com.kuka.domain.OperatorLog;
+import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class LogUtils {
                 operatorLog.setTypeName("订单状态上传");
                 break;
         }
-        operatorLog.setCreateTime(new Date());
+        operatorLog.setCreateTime(DateUtils.formatDate(new Date(),"yyyy-MM-dd"));
         operatorLogMapper.insert(operatorLog);
 
     }

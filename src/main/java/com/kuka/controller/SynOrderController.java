@@ -20,7 +20,7 @@ public class SynOrderController {
      */
     @ResponseBody
     @GetMapping("order/synOrders")
-    public ResultDto synItems() {
+    public ResultDto synOrders() {
        return salOrderService.synOrder();
     }
 
@@ -29,6 +29,14 @@ public class SynOrderController {
     public ResultDto synOrderStatus() {
         return salOrderService.synOrderStatus();
     }
+
+
+    @ResponseBody
+    @GetMapping("order/synBackOrderStatus")
+    public ResultDto synBackOrderStatus() {
+        return salOrderService.synRebackOrderStatus();
+    }
+
 
 
 

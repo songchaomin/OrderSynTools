@@ -1,7 +1,9 @@
 package com.kuka.dao;
 
 import com.kuka.domain.Mchk;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface MchkMapper {
     int deleteByPrimaryKey(String dwbh);
 

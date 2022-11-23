@@ -15,6 +15,7 @@
         let $inventorys=$("#inventorys");
         let $orders=$("#orders");
         let $orderStatus=$("#orderStatus");
+        let $backOrderStatus=$("#backOrderStatus");
         $items.click(function () {
             $.get('../spkfk/synItems','',function(rs) {
                 layer.msg(rs.message);
@@ -45,6 +46,13 @@
             },'json');
         });
 
+        $backOrderStatus.click(function () {
+            $.get('../order/synBackOrderStatus','',function(rs) {
+                layer.msg(rs.message,{time:3000});
+            },'json');
+        });
+
+
 
     });
 </script>
@@ -66,6 +74,7 @@
 <button type="button" class="layui-btn" id="inventorys">上传商品库存和价格资料</button>
 <button type="button" class="layui-btn" id="orders">同步订单</button>
 <button type="button" class="layui-btn" id="orderStatus">同步订单状态</button>
+<button type="button" class="layui-btn" id="backOrderStatus">同步退货订单状态</button>
 </body>
 
 </html>

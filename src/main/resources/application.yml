@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: @profile.active@
+    active: prod
   application:
     name: OrderSynTools
 http:
@@ -22,6 +22,6 @@ logging:
   path: /OrderSynToolsLog
 
 reg:
-  sn: 312192c35c49f1d6c189bddaa29c4e0c
+  sn: 8539fd8c9fbce80a202d312485d2b3ae
 
 

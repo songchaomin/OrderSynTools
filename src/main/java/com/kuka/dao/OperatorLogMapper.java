@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.kuka.domain.ResultPageDto;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface OperatorLogMapper {
     int deleteByPrimaryKey(Integer id);
 

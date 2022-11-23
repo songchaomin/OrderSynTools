@@ -2,7 +2,6 @@ package com.kuka.controller;
 
 import com.kuka.domain.OperatorLog;
 import com.kuka.domain.ResultPageDto;
-import com.kuka.domain.ResultDto;
 import com.kuka.services.OperatorLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

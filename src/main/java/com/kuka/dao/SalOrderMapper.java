@@ -3,7 +3,9 @@ package com.kuka.dao;
 import com.kuka.domain.SalOrder;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface SalOrderMapper {
     int deleteByPrimaryKey(String outOrderCode);
 

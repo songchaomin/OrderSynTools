@@ -9,7 +9,7 @@
     <result column="type_name" jdbcType="VARCHAR" property="typeName" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="msg" jdbcType="VARCHAR" property="msg" />
-    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -17,7 +17,7 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
+    select
     <include refid="Base_Column_List" />
     from operator_log
     where id = #{id,jdbcType=INTEGER}
@@ -29,9 +29,9 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.kuka.domain.OperatorLog" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into operator_log ([type], type_name, code, 
+    insert into operator_log ([type], type_name, code,
       msg, create_time)
-    values (#{type,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+    values (#{type,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
       #{msg,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.kuka.domain.OperatorLog" useGeneratedKeys="true">
@@ -110,7 +110,7 @@
     ([type], type_name, code, msg, create_time)
     values
     <foreach collection="list" item="item" separator=",">
-      (#{item.type,jdbcType=VARCHAR}, #{item.typeName,jdbcType=VARCHAR}, #{item.code,jdbcType=VARCHAR}, 
+      (#{item.type,jdbcType=VARCHAR}, #{item.typeName,jdbcType=VARCHAR}, #{item.code,jdbcType=VARCHAR},
         #{item.msg,jdbcType=VARCHAR}, #{item.createTime,jdbcType=DATE})
     </foreach>
   </insert>
@@ -124,11 +124,10 @@
         (
         SELECT ROW_NUMBER() OVER (ORDER BY id) AS RowNum, *
         FROM (
-        select *
-        from operator_log
+        select id,type,type_name,code,msg,create_time from operator_log
         ) a
         )b
-
         WHERE RowNum BETWEEN (#{pageDto.page}-1)*#{pageDto.limit}+1 AND #{pageDto.page}*#{pageDto.limit}
+        order by b.create_time desc
     </select>
 </mapper>

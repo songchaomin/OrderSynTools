@@ -7,4 +7,6 @@ public interface SalOrderService {
     ResultDto synOrder();
     //同步订单状态
     ResultDto synOrderStatus();
+
+    ResultDto synRebackOrderStatus();
 }
