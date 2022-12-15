@@ -233,28 +233,28 @@
   </resultMap>
   <sql id="Base_Column_ext_List">
     <!--@mbg.generated-->
-    spid, spbh, sptm, spmch, zjm, beactive, yishj, is_gdsj, is_gdzk, is_tjsp, is_hysp, 
-    is_gmp, is_gsp, is_sy, is_yp, jingd, denglrq, gengxshj, delrq, dw, shpchd, shpgg, 
-    kemuhao, oldcode, rkhw, ckhw, bzqfs, fenlbh, guojbh, changjbh, huaxm, changym, suming, 
-    xiwname, tongym, shengccj, pizhwh, zhucsb, jixing, shiyzh, bulfy, chuczysx, chuffl, 
-    yaofpd, yongfyyl, jinjzh, zhuysx, yaowchf, youxq, shangplx, guizbz, yongyfl, leibie, 
-    jlgg, otd, ordercycle, stkquot, shlv, hshjj, jj, shj, hshsj, lshj, koul, kcsx, kcxx, 
-    helkc, bzqts, yujts, zgshl, zhdcbj, zdshj, zgshj, zgjjxz, maolv, huiytj, itemlength, 
-    itemheight, itemwidth, weight, casevolume, caseweight, zuixdwtj, zuixdwzl, pfpj, 
-    dispcolor, jx, bzgg, lastmodifytime, is_cmd, lsgg, is_zdyh, is_jkyp, minshl, cx_dj_kl, 
-    is_cx_dj, zdyh, zdhyzklshj, is_cyhydz, huiyshl, nocalcopys, fuzr, is_jsh, is_lc, 
-    is_zhongyao, type_bh, zdlshj, guanjzjh, shiyq, abbrImageURL, cbflbh, imageUrl, is_ybsp, 
-    yb_zfbl, yb_spbh, username, chuchj, pifj, zhilbz, chargelb, is_sendybzx, tj_ylshj, 
-    is_hj, is_yxbz, wdid, chbjs, dwbh, zengp, beizhu, cunchtj, is_jy, shlvz, xscbdj, 
-    shcqyzz, yppzhwh, chpzlbzh, cpzljybgs, cpwjpw, jkypxkz, jkypzcz, ypscbzzm, cpsmspzwh, 
-    qxcpsczcz, swzppqfz, jkycpj, zhk, zhkj, is_fp, zhbj, danganh, spfl, iszhj, shenhe, 
-    is_shenhe, leibie1, zhuzlx, waig, baozh, lclxfy, zlcxqk, yhfwqk, zlbzbgqk, kczlkcqk, 
-    gspzsyxq, gmpzsyxq, gmpzsh, maxkxsl, jinkzczh, jwh, is_desc, ckshlv, gsp_pzwhyxq, 
-    gsp_cgzy, xyzs, wjpw, zhucpj, zzhcpj, bchpj, bzhpj, bzhyp, chjwts, zlbz, xy_sms, 
-    xy_ypbz, yspbh, huozu, cjgjz, zhengzzt, gsp_swpqf, gsp_jkycpj, gsp_jkzxz, gsp_jkswzpbgs, 
-    gsp_jkypbgs, kesi, shuilv, swfldm, ds_jg, bm, zbz, isunbundled, ProductType, BarCode, 
-    MBarCode, SbarCode, IsGoods, IsPrecious, IsImport, CountryCode, IsEmonitor, IsAnti, 
-    Uefforts, GCategory, Squantity, LocatLimitedType, BatchValidType, PackageSpec, IsEmphasis, 
+    spid, spbh, sptm, spmch, zjm, beactive, yishj, is_gdsj, is_gdzk, is_tjsp, is_hysp,
+    is_gmp, is_gsp, is_sy, is_yp, jingd, denglrq, gengxshj, delrq, dw, shpchd, shpgg,
+    kemuhao, oldcode, rkhw, ckhw, bzqfs, fenlbh, guojbh, changjbh, huaxm, changym, suming,
+    xiwname, tongym, shengccj, pizhwh, zhucsb, jixing, shiyzh, bulfy, chuczysx, chuffl,
+    yaofpd, yongfyyl, jinjzh, zhuysx, yaowchf, youxq, shangplx, guizbz, yongyfl, leibie,
+    jlgg, otd, ordercycle, stkquot, shlv, hshjj, jj, shj, hshsj, lshj, koul, kcsx, kcxx,
+    helkc, bzqts, yujts, zgshl, zhdcbj, zdshj, zgshj, zgjjxz, maolv, huiytj, itemlength,
+    itemheight, itemwidth, weight, casevolume, caseweight, zuixdwtj, zuixdwzl, pfpj,
+    dispcolor, jx, bzgg, lastmodifytime, is_cmd, lsgg, is_zdyh, is_jkyp, minshl, cx_dj_kl,
+    is_cx_dj, zdyh, zdhyzklshj, is_cyhydz, huiyshl, nocalcopys, fuzr, is_jsh, is_lc,
+    is_zhongyao, type_bh, zdlshj, guanjzjh, shiyq, abbrImageURL, cbflbh, imageUrl, is_ybsp,
+    yb_zfbl, yb_spbh, username, chuchj, pifj, zhilbz, chargelb, is_sendybzx, tj_ylshj,
+    is_hj, is_yxbz, wdid, chbjs, dwbh, zengp, beizhu, cunchtj, is_jy, shlvz, xscbdj,
+    shcqyzz, yppzhwh, chpzlbzh, cpzljybgs, cpwjpw, jkypxkz, jkypzcz, ypscbzzm, cpsmspzwh,
+    qxcpsczcz, swzppqfz, jkycpj, zhk, zhkj, is_fp, zhbj, danganh, spfl, iszhj, shenhe,
+    is_shenhe, leibie1, zhuzlx, waig, baozh, lclxfy, zlcxqk, yhfwqk, zlbzbgqk, kczlkcqk,
+    gspzsyxq, gmpzsyxq, gmpzsh, maxkxsl, jinkzczh, jwh, is_desc, ckshlv, gsp_pzwhyxq,
+    gsp_cgzy, xyzs, wjpw, zhucpj, zzhcpj, bchpj, bzhpj, bzhyp, chjwts, zlbz, xy_sms,
+    xy_ypbz, yspbh, huozu, cjgjz, zhengzzt, gsp_swpqf, gsp_jkycpj, gsp_jkzxz, gsp_jkswzpbgs,
+    gsp_jkypbgs, kesi, shuilv, swfldm, ds_jg, bm, zbz, isunbundled, ProductType, BarCode,
+    MBarCode, SbarCode, IsGoods, IsPrecious, IsImport, CountryCode, IsEmonitor, IsAnti,
+    Uefforts, GCategory, Squantity, LocatLimitedType, BatchValidType, PackageSpec, IsEmphasis,
     zt, dsjg, fenzu2, fenzu, is_mhj, ypssxkcyr, gsp_qxzczh, ssxkcyr, qx_scxkzh
   </sql>
 
@@ -273,7 +273,7 @@
     </update>
 
     <select id="querySpkfkJc" resultType="com.kuka.domain.InventoryAndPrice">
-    select top 1000 a.spid,b.spbh as prod_no,a.kcshl as storage_number,b.hshSj as price from spkfjc a inner join spkfk b on a.spid=b.spid
+    select top 1000 a.spid,b.spbh as prod_no,a.kcshl as storage_number,b.hshSj as price from spkfjc a inner join spkfk b on a.spid=b.spid where a.kcshl>0 and b.hshsj>0
     </select>
 
 <select id="querySpkfkJcBySpid" resultType="com.kuka.domain.InventoryAndPrice">
